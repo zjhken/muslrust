@@ -4,10 +4,21 @@ Debian based Docker environment for building static binaries compiled with rust 
 This should work out of the box for rust binaries without C dependencies (libc is okay).
 
 ## Usage
-Clone, run `./build.sh`, then, in a rust project directory:
+Clone and build:
 
 ```sh
-rustproj $ docker run -v $PWD:/volume -w /volume -t clux/muslmultirust cargo build --target=x86_64-unknown-linux-musl
+git clone git@github.com:clux/muslrust.git && cd muslrust
+docker build -t clux/muslrust .
+```
+
+Then, in a rust project directory:
+
+```sh
+rustproj $ docker run \
+  -v $PWD:/volume \
+  -w /volume \
+  -t clux/muslmultirust \
+  cargo build --target=x86_64-unknown-linux-musl
 ```
 
 ## Future
