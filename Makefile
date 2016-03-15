@@ -8,9 +8,19 @@ build:
 run:
 	docker run -it clux/muslrust /bin/bash
 
-test:
+test-plain:
+	docker run \
+		-v $$PWD/test/plaincrate:/volume \
+		-w /volume \
+		-t clux/muslrust \
+		cargo build --target=x86_64-unknown-linux-musl --release
+	./test/plaincrate/target/x86_64-unknown-linux-musl/release/plaincrate
+
+test-curl:
 	docker run \
 		-v $$PWD/test/curlcrate:/volume \
 		-w /volume \
 		-t clux/muslrust \
 		cargo build --target=x86_64-unknown-linux-musl --release
+
+test: test-plain test-curl

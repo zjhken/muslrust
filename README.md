@@ -28,9 +28,11 @@ ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
         not a dynamic executable
 ```
 
+Note that only the plain test currently works.  Getting curl and all its sys dependencies working is the main project.
+
 ## Future
 Compile popular C libraries against musl-gcc so that you can use crates with C ffi dependencies.
 
-- [x] libcurl
-- [x] openssl
-- [ ] zlib
+- [x] [curl](https://github.com/carllerche/curl-rust)
+- [x] [openssl](https://github.com/sfackler/rust-openssl#manual-configuration)
+- [ ] [zlib](https://github.com/alexcrichton/libz-sys)
