@@ -45,3 +45,8 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     ./configure --enable-shared=no --enable-static=ssl --prefix=$PREFIX && \
     make -j4 && make install && \
     cd .. && rm -rf curl-$CURL_VER && apt-get remove -y curl
+
+# since rust looks at pkg-config for directions, should hook into that, but for now:
+ENV OPENSSL_INCLUDE_DIR=$PREFIX/ssl/include \
+    OPENSSL_LIB_DIR=$PREFIX/ssl/lib \
+    OPENSSL_STATIC=1

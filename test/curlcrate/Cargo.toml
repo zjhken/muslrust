@@ -1,0 +1,7 @@
+[package]
+authors = ["Needs to be set with an identity helper <(none)>"]
+name = "sslcrate"
+version = "0.1.0"
+
+[dependencies]
+curl = "*"
