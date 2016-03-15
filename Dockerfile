@@ -26,7 +26,8 @@ RUN curl -sf https://static.rust-lang.org/rustup.sh > rustup.sh && chmod +x rust
 ENV SSL_VER=1.0.2g \
     CURL_VER=7.47.1 \
     CC=musl-gcc \
-    PREFIX=/dist
+    PREFIX=/dist \
+    PATH=/dist/bin:$PATH
 
 # OpenSSL
 # TODO: need zlib before openssl if using that
@@ -37,3 +38,10 @@ RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd .. && rm -rf openssl-$SSL_VER
 
 
+# A bit of a hack because the system doen't know about where ssl is (pkg-config)
+ENV CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib"
+RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
+    cd curl-$CURL_VER/ && \
+    ./configure --enable-shared=no --enable-static=ssl --prefix=$PREFIX && \
+    make -j4 && make install && \
+    cd .. && rm -rf curl-$CURL_VER && apt-get remove -y curl

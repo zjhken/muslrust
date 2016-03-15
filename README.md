@@ -31,6 +31,6 @@ ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
 ## Future
 Compile popular C libraries against musl-gcc so that you can use crates with C ffi dependencies.
 
-- [ ] libcurl
-- [ ] openssl
+- [x] libcurl
+- [x] openssl
 - [ ] zlib
