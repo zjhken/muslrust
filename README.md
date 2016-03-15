@@ -24,7 +24,7 @@ docker run \
 You should have a static executable in the target folder:
 
 ```sh
-projectname $ ldd target/x86_64-unknown-linux-musl/release/projectname
+ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
         not a dynamic executable
 ```
 
