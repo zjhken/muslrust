@@ -24,7 +24,7 @@ docker run \
 You should have a static executable in the target folder:
 
 ```sh
-zedonius $ ldd target/x86_64-unknown-linux-musl/release/zedonius
+projectname $ ldd target/x86_64-unknown-linux-musl/release/projectname
         not a dynamic executable
 ```
 
