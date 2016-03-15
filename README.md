@@ -14,11 +14,18 @@ docker build -t clux/muslrust .
 Then, in a rust project directory:
 
 ```sh
-rustproj $ docker run \
+docker run \
   -v $PWD:/volume \
   -w /volume \
-  -t clux/muslmultirust \
-  cargo build --target=x86_64-unknown-linux-musl
+  -t clux/muslrust \
+  cargo build --target=x86_64-unknown-linux-musl --release
+```
+
+You should have a static executable in the target folder:
+
+```sh
+zedonius $ ldd target/x86_64-unknown-linux-musl/release/zedonius
+        not a dynamic executable
 ```
 
 ## Future
