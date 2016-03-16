@@ -1,6 +1,6 @@
 [package]
 authors = ["clux <analsandblaster@gmail.com>"]
-name = "sslcrate"
+name = "curlcrate"
 version = "0.1.0"
 
 [dependencies]

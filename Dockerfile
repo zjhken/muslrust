@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   musl-tools \
   pkg-config \
+  apt-file \
   xutils-dev \
   sudo
 
@@ -27,7 +28,8 @@ ENV SSL_VER=1.0.2g \
     CURL_VER=7.47.1 \
     CC=musl-gcc \
     PREFIX=/dist \
-    PATH=/dist/bin:$PATH
+    PATH=/dist/bin:$PATH \
+    PKG_CONFIG_PATH=/dist/lib/pkgconfig
 
 # OpenSSL
 # TODO: need zlib before openssl if using that
@@ -37,16 +39,9 @@ RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     make depend && make -j4 && make install && \
     cd .. && rm -rf openssl-$SSL_VER
 
-
-# A bit of a hack because the system doen't know about where ssl is (pkg-config)
-ENV CPPFLAGS="-I$PREFIX/include" LDFLAGS="-L$PREFIX/lib"
 RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     cd curl-$CURL_VER/ && \
     ./configure --enable-shared=no --enable-static=ssl --prefix=$PREFIX && \
     make -j4 && make install && \
-    cd .. && rm -rf curl-$CURL_VER && apt-get remove -y curl
-
-# since rust looks at pkg-config for directions, should hook into that, but for now:
-ENV OPENSSL_INCLUDE_DIR=$PREFIX/ssl/include \
-    OPENSSL_LIB_DIR=$PREFIX/ssl/lib \
-    OPENSSL_STATIC=1
+    cd .. && rm -rf curl-$CURL_VER
+# At this point pkg-config should pick up the correct curl with correct deps..

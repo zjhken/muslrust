@@ -21,6 +21,6 @@ test-curl:
 		-v $$PWD/test/curlcrate:/volume \
 		-w /volume \
 		-t clux/muslrust \
-		cargo build --target=x86_64-unknown-linux-musl --release
+		cargo build --target=x86_64-unknown-linux-musl --release --verbose
 
 test: test-plain test-curl
