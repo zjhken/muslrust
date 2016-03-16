@@ -6,7 +6,7 @@ build:
 	docker build -t clux/muslrust .
 
 run:
-	docker run -it clux/muslrust /bin/bash
+	docker run -v $$PWD/test:/volume  -w /volume -it clux/muslrust /bin/bash
 
 test-plain:
 	docker run \

@@ -1,10 +1,11 @@
-extern crate openssl_sys;
-use std::env;
+extern crate openssl;
+use std::str;
+use openssl::crypto::hash;
 
 fn main() {
-    let pr = openssl_sys::probe::ProbeResult {
-        cert_file: None,
-        cert_dir: Some(env::current_dir().unwrap()),
-    };
-    println!("Hello {}", pr.cert_dir.unwrap().display());
+    let data: &[u8] = b"Hello, world";
+    let digest = hash::hash(hash::Type::SHA256, &data);
+
+    println!("{}", str::from_utf8(data).ok().unwrap());
+    println!("hash: {:?}", digest);
 }

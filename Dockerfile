@@ -44,4 +44,9 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     ./configure --enable-shared=no --enable-static=ssl --prefix=$PREFIX && \
     make -j4 && make install && \
     cd .. && rm -rf curl-$CURL_VER
+
 # At this point pkg-config should pick up the correct curl with correct deps..
+# Unfortunately, this is not the case, have to set this at the moment (rust-openssl/issues/351)
+ENV OPENSSL_LIB_DIR=$PREFIX/lib \
+    OPENSSL_INCLUDE_DIR=$PREFIX/include \
+    OPENSSL_STATIC=1
