@@ -1,4 +1,6 @@
 # muslrust
+[![build status](https://secure.travis-ci.org/clux/muslrust.svg)](http://travis-ci.org/clux/muslrust)
+
 Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
 The container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
@@ -12,13 +14,13 @@ docker run \
   -v $PWD:/volume \
   -w /volume \
   -t clux/muslrust \
-  cargo build --target=x86_64-unknown-linux-musl --release
+  cargo build
 ```
 
 You should have a static executable in the target folder:
 
 ```sh
-ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
+ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 

@@ -49,3 +49,7 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
 ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_INCLUDE_DIR=$PREFIX/include \
     OPENSSL_STATIC=1
+
+# Set default target (so we don't have to specify to cargo build)
+RUN mkdir /.cargo && \
+    echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
