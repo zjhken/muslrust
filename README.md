@@ -28,7 +28,10 @@ ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
         not a dynamic executable
 ```
 
-Note that only the plain test currently works.  Getting curl and all its sys dependencies working is the main project.
+## Status
+Using plain rust crates without C bindings should just work. `make test-plain` compiles an example crate in the container.
+
+Using openssl standalone works at the moment, but when used with curl it's not. Some exploratory tests available that illustrate this.
 
 ## Future
 Compile popular C libraries against musl-gcc so that you can use crates with C ffi dependencies.
