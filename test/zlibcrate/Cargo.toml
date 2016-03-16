@@ -1,0 +1,8 @@
+[package]
+authors = ["clux <analsandblaster@gmail.com>"]
+name = "zlibcrate"
+version = "0.1.0"
+
+[dependencies]
+flate2 = "*"
+tar = "*"
