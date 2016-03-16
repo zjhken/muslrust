@@ -1,19 +1,13 @@
 # muslrust
 Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
-This should work out of the box for rust binaries without C dependencies (libc is okay).
+The container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
 
 ## Usage
-Clone and build:
+Pull and run from a rust project root:
 
 ```sh
-git clone git@github.com:clux/muslrust.git && cd muslrust
-docker build -t clux/muslrust .
-```
-
-Then, in a rust project directory:
-
-```sh
+docker pull clux/muslrust
 docker run \
   -v $PWD:/volume \
   -w /volume \
@@ -28,14 +22,23 @@ ldd target/x86_64-unknown-linux-musl/release/EXECUTABLE
         not a dynamic executable
 ```
 
-## Status
-Using plain rust crates without C bindings should just work. `make test-plain` compiles an example crate in the container.
 
-Using openssl standalone works at the moment, but when used with curl it's not. Some exploratory tests available that illustrate this.
+## C Libraries
+The following system libraries are compiled against `musl-gcc`:
 
-## Future
-Compile popular C libraries against musl-gcc so that you can use crates with C ffi dependencies.
+- [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
+- [x] openssl ([openssl crate]](https://github.com/sfackler/rust-openssl))
+- [ ] zlib ([zlib-sys crate](https://github.com/alexcrichton/libz-sys))
 
-- [x] [curl](https://github.com/carllerche/curl-rust)
-- [x] [openssl](https://github.com/sfackler/rust-openssl#manual-configuration)
-- [ ] [zlib](https://github.com/alexcrichton/libz-sys)
+Turns out you don't generally need zlib as `flate2` bundles `miniz.c` as the default implementation, so have skipped this for now. I suspect the high use count of `zlib-sys` is due to flate2 having it as an optional dependency.
+
+## Developing
+Clone, tweak, build, and run tests:
+
+```sh
+git clone git@github.com:clux/muslrust.git && cd muslrust
+docker build -t clux/muslrust .
+make test
+```
+
+The tests verify that you can use `curl`, `openssl`, `flate2`, and `rand` in simplistic ways.

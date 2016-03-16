@@ -32,7 +32,6 @@ ENV SSL_VER=1.0.2g \
     PKG_CONFIG_PATH=/dist/lib/pkgconfig
 
 # OpenSSL
-# TODO: need zlib before openssl if using that
 RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
     ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl no-zlib linux-x86_64 && \
@@ -40,13 +39,13 @@ RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd .. && rm -rf openssl-$SSL_VER
 
 RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
-    cd curl-$CURL_VER/ && \
+    cd curl-$CURL_VER && \
     ./configure --enable-shared=no --enable-static=ssl --prefix=$PREFIX && \
     make -j4 && make install && \
     cd .. && rm -rf curl-$CURL_VER
 
 # At this point pkg-config should pick up the correct curl with correct deps..
-# Unfortunately, this is not the case, have to set this at the moment (rust-openssl/issues/351)
+# But some issues with rust build scripts forces this line (rust-openssl/issues/351)
 ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_INCLUDE_DIR=$PREFIX/include \
     OPENSSL_STATIC=1
