@@ -23,4 +23,11 @@ test-curl:
 		-t clux/muslrust \
 		cargo build --target=x86_64-unknown-linux-musl --release --verbose
 
-test: test-plain test-curl
+test-ssl:
+	docker run \
+		-v $$PWD/test/sslcrate:/volume \
+		-w /volume \
+		-t clux/muslrust \
+		cargo build --target=x86_64-unknown-linux-musl --release --verbose
+
+test: test-plain test-ssl test-curl
