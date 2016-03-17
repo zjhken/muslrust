@@ -39,13 +39,13 @@ ENV SSL_VER=1.0.2g \
 RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
     ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl no-zlib linux-x86_64 && \
-    make depend && make -j4 && make install && \
+    make depend 2> /dev/null && make -j$(nproc) && make install && \
     cd .. && rm -rf openssl-$SSL_VER
 
 RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     cd curl-$CURL_VER && \
     ./configure --enable-shared=no --enable-static=ssl --enable-optimize --prefix=$PREFIX && \
-    make -j4 && make install && \
+    make -j$(nproc) && make install && \
     cd .. && rm -rf curl-$CURL_VER
 
 # At this point pkg-config should pick up the correct curl with correct deps..
