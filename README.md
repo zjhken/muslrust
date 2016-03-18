@@ -10,11 +10,7 @@ Pull and run from a rust project root:
 
 ```sh
 docker pull clux/muslrust
-docker run \
-  -v $PWD:/volume \
-  -w /volume \
-  -t clux/muslrust \
-  cargo build
+docker run -v $PWD:/volume -w /volume -t clux/muslrust cargo build
 ```
 
 You should have a static executable in the target folder:
@@ -34,7 +30,7 @@ The following system libraries are compiled against `musl-gcc`:
 
 Turns out you don't generally need zlib as `flate2` bundles `miniz.c` as the default implementation, so have skipped this for now. The high use count of `zlib-sys` on crates.io may be due to flate2 having it as an optional dependency.
 
-NB: Make sure you are using curl crate version >= 0.2.17.
+NB: Make sure you are using curl crate version >= 0.2.17 if using curl.
 
 ## Developing
 Clone, tweak, build, and run tests:
