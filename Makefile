@@ -7,8 +7,6 @@ build: .build
 	rm -f .build
 	docker build -t clux/muslrust .
 	touch .build
-push:
-	docker push clux/muslrust
 run:
 	docker run -v $$PWD/test:/volume  -w /volume -it clux/muslrust /bin/bash
 

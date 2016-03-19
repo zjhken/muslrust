@@ -4,7 +4,11 @@ python:
 services:
   - docker
 script:
+  - 'docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"'
+  - docker build -t clux/muslrust:nightly .
   - make test
+after_success:
+  - docker push clux/muslrust:nightly
 notifications:
   email:
     on_success: change
