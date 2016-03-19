@@ -4,8 +4,6 @@ python:
 services:
   - docker
 script:
-  - docker pull clux/muslrust
-  - touch .build
   - make test
 notifications:
   email:
