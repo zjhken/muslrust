@@ -8,6 +8,7 @@ script:
 after_success:
 - docker push clux/muslrust
 - docker tag clux/muslrust clux/muslrust:$DOCKER_TAG
+- docker push clux/muslrust:$DOCKER_TAG
 notifications:
   email:
     on_success: change
