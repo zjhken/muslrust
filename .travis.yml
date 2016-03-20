@@ -3,7 +3,7 @@ services:
 script:
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - docker build -t clux/muslrust .
-- "export DOCKER_TAG=$(docker run -it clux/muslrust rustc --version | awk '{print $2}')"
+- export DOCKER_TAG="$(docker run -it clux/muslrust rustc --version | awk '{print $2}')-$(date +%Y-%m-%d)"
 - make test
 after_success:
 - docker push clux/muslrust
