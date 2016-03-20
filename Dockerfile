@@ -1,4 +1,5 @@
 FROM debian:jessie
+MAINTAINER Eirik Albrigtsen <analsandblaster@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -17,7 +18,9 @@ RUN apt-get update && apt-get install -y \
   musl-tools \
   pkg-config \
   apt-file \
-  xutils-dev
+  xutils-dev \
+  --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/*
 
 RUN curl https://static.rust-lang.org/rustup.sh | sh -s -- \
   --with-target=x86_64-unknown-linux-musl \
