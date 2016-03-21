@@ -1,5 +1,8 @@
 # muslrust
 [![build status](https://secure.travis-ci.org/clux/muslrust.svg)](http://travis-ci.org/clux/muslrust)
+[![docker pulls](https://img.shields.io/docker/pulls/clux/muslrust.svg)](
+https://hub.docker.com/r/clux/muslrust/)
+[![image size](https://img.shields.io/imagelayers/image-size/clux/muslrust/latest.svg)](https://imagelayers.io/?images=clux%2Fmuslrust:latest)
 
 Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
@@ -20,6 +23,8 @@ ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 
+## Docker builds
+Latest is always the last built nightly pushed by travis. To pin against specific builds, see the [available tags](https://hub.docker.com/r/clux/muslrust/tags/) on the docker hub.
 
 ## C Libraries
 The following system libraries are compiled against `musl-gcc`:
