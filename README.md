@@ -31,7 +31,7 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
-- [ ] zlib ([zlib-sys crate](https://github.com/alexcrichton/libz-sys))
+- [ ] ~~zlib ([zlib-sys crate](https://github.com/alexcrichton/libz-sys))~~
 
 Turns out you don't generally need zlib as `flate2` bundles `miniz.c` as the default implementation, so have skipped this for now. The high use count of `zlib-sys` on crates.io may be due to flate2 having it as an optional dependency.
 
@@ -42,7 +42,7 @@ Clone, tweak, build, and run tests:
 
 ```sh
 git clone git@github.com:clux/muslrust.git && cd muslrust
-docker build -t clux/muslrust .
+make build
 make test
 ```
 
