@@ -31,8 +31,8 @@ RUN curl https://static.rust-lang.org/rustup.sh | sh -s -- \
   echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
 
 # Compile a bunch of stuff and make install it to /dist
-ENV SSL_VER=1.0.2g \
-    CURL_VER=7.47.1 \
+ENV SSL_VER=1.0.2h \
+    CURL_VER=7.48.0 \
     CC=musl-gcc \
     PREFIX=/dist \
     PATH=/dist/bin:$PATH \
