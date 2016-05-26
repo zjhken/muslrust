@@ -1,14 +1,21 @@
 extern crate curl;
 
 use std::process;
-use curl::http;
+use std::io::{stdout, Write};
+use curl::easy::Easy;
 
 fn main() {
     let url = "https://raw.githubusercontent.com/clux/muslrust/master/test/curlcrate/src/main.rs";
 
-    let resp = http::handle().get(url).exec().unwrap();
-    let body = String::from_utf8_lossy(resp.get_body());
-    println!("{}", body);
-    process::exit(if resp.get_code() == 200 { 0 } else { 1 });
+    let mut easy = Easy::new();
+    easy.fail_on_error(true).unwrap();
+    easy.url(url).unwrap();
+    easy.write_function(|data| {
+        Ok(stdout().write(data).unwrap())
+    }).unwrap();
+    easy.perform().unwrap_or_else(|e| {
+      println!("Failed: {}", e);
+      process::exit(1);
+    });
     // NB: This is a quine
 }
