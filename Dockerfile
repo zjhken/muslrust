@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:sid
 MAINTAINER Eirik Albrigtsen <analsandblaster@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
