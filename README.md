@@ -7,7 +7,9 @@ https://hub.docker.com/r/clux/muslrust/)
 
 Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
-The container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
+This is only useful if you require external C dependencies, because otherwise you could do `rustup target add x86_64-unknown-linux-musl`.
+
+This container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
 
 ## Usage
 Pull and run from a rust project root:
@@ -34,9 +36,7 @@ The following system libraries are compiled against `musl-gcc`:
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
 - [ ] ~~zlib ([zlib-sys crate](https://github.com/alexcrichton/libz-sys))~~
 
-Turns out you don't generally need zlib as `flate2` bundles `miniz.c` as the default implementation, so have skipped this for now. The high use count of `zlib-sys` on crates.io may be due to flate2 having it as an optional dependency.
-
-NB: Make sure you are using curl crate version >= 0.2.17 if using curl.
+You shouldn't need zlib as `flate2` bundles `miniz.c` as the default implementation.
 
 ## Developing
 Clone, tweak, build, and run tests:
