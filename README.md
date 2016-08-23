@@ -2,8 +2,8 @@
 [![build status](https://secure.travis-ci.org/clux/muslrust.svg)](http://travis-ci.org/clux/muslrust)
 [![docker pulls](https://img.shields.io/docker/pulls/clux/muslrust.svg)](
 https://hub.docker.com/r/clux/muslrust/)
-[![image size](https://imagelayers.io/badge/clux/muslrust:latest.svg)](https://imagelayers.io/?images=clux/muslrust:latest)
-
+[![docker image info](https://images.microbadger.com/badges/image/clux/muslrust.svg)](http://microbadger.com/images/clux/muslrust)
+[![docker tag](https://images.microbadger.com/badges/version/clux/muslrust.svg)](https://hub.docker.com/r/clux/muslrust/tags/)
 
 Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
