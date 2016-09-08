@@ -1,0 +1,7 @@
+[package]
+authors = ["clux <analsandblaster@gmail.com>"]
+name = "hypercrate"
+version = "0.1.0"
+
+[dependencies]
+hyper = "*"

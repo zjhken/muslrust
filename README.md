@@ -26,6 +26,8 @@ ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 
+From there on, you can include it in a blank docker image (because everything you need is included in the binary) and end up a [5MB docker blog image](https://github.com/clux/blog).
+
 ## Docker builds
 Latest is always the last built nightly pushed by travis. To pin against specific builds, see the [available tags](https://hub.docker.com/r/clux/muslrust/tags/) on the docker hub.
 
@@ -47,4 +49,14 @@ make build
 make test
 ```
 
-The tests verify that you can use `curl`, `openssl`, `flate2`, and `rand` in simplistic ways.
+The tests verify that you can use `hyper`, `curl`, `openssl`, `flate2`, and `rand` in simplistic ways.
+
+## SSL Verification
+You need to point openssl at the location of your certificates explicitly to have https requests not return certificate errors.
+
+```sh
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+export SSL_CERT_DIR=/etc/ssl/certs
+```
+
+You can also hardcode this in your binary, or, more sensibly set it in your running docker image.

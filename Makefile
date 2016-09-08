@@ -15,7 +15,15 @@ test-ssl:
 	./test.sh ssl
 test-zlib:
 	./test.sh zlib
+test-hyper:
+	./test.sh hyper
 
-test: test-plain test-ssl test-curl test-zlib
-.PHONY: test-plain test-curl test-ssl test-zlib
+clean-lock:
+	sudo find . -iname Cargo.lock -exec rm {} \;
+clean-builds:
+	sudo find . -mindepth 3 -maxdepth 3 -name target -exec rm -rf {} \;
+clean: clean-lock clean-builds
+
+test: test-plain test-ssl test-curl test-zlib test-hyper
+.PHONY: test-plain test-curl test-ssl test-zlib test-hyper
 
