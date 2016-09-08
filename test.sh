@@ -4,6 +4,7 @@ set -ex
 docker_build() {
   local -r crate="$1"crate
   docker run \
+    --rm \
     -v "$PWD/test/${crate}:/volume" \
     -w /volume \
     -t clux/muslrust \
