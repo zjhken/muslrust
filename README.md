@@ -5,7 +5,7 @@ https://hub.docker.com/r/clux/muslrust/)
 [![docker image info](https://images.microbadger.com/badges/image/clux/muslrust.svg)](http://microbadger.com/images/clux/muslrust)
 [![docker tag](https://images.microbadger.com/badges/version/clux/muslrust.svg)](https://hub.docker.com/r/clux/muslrust/tags/)
 
-Debian based Docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
+A plain docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
 
 This is only useful if you require external C dependencies, because otherwise you could do `rustup target add x86_64-unknown-linux-musl`.
 
@@ -26,7 +26,7 @@ ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 
-From there on, you can include it in a blank docker image (because everything you need is included in the binary) and end up a [5MB docker blog image](https://github.com/clux/blog).
+From there on, you can include it in a blank docker image (because everything you need is included in the binary) and perhaps end up with a [5MB docker blog image](https://github.com/clux/blog).
 
 ## Docker builds
 Latest is always the last built nightly pushed by travis. To pin against specific builds, see the [available tags](https://hub.docker.com/r/clux/muslrust/tags/) on the docker hub.

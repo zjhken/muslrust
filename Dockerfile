@@ -6,13 +6,10 @@ RUN apt-get update && apt-get install -y \
   curl \
   file \
   git \
-  g++ \
   make \
-  python \
   nano \
   ca-certificates \
   xz-utils \
-  curl \
   musl-tools \
   pkg-config \
   apt-file \
