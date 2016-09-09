@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
   curl \
   file \
   git \
+  g++ \
+  python \
   make \
   nano \
   ca-certificates \
