@@ -6,10 +6,11 @@ script:
 - export DOCKER_TAG="$(docker run -it clux/muslrust rustc --version | awk '{print $2}')-$(date +%Y-%m-%d)"
 - make test
 after_success:
+- docker push clux/muslrust
 - docker tag clux/muslrust clux/muslrust:$DOCKER_TAG
 - docker push clux/muslrust:$DOCKER_TAG
-- docker tag clux/muslrust clux/muslrust:stable
-- docker push clux/muslrust:stable
+- docker tag clux/muslrust clux/muslrust:nightly
+- docker push clux/muslrust:nightly
 notifications:
   email:
     on_success: change
