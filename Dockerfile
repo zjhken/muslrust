@@ -28,8 +28,8 @@ RUN curl https://static.rust-lang.org/rustup.sh | sh -s -- \
   echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
 
 # Compile C libraries with musl-gcc
-ENV SSL_VER=1.0.2h \
-    CURL_VER=7.50.1 \
+ENV SSL_VER=1.0.2j \
+    CURL_VER=7.51.0 \
     CC=musl-gcc \
     PREFIX=/usr/local \
     PATH=/usr/local/bin:$PATH \
@@ -48,14 +48,9 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf curl-$CURL_VER
 
-# At this point pkg-config should pick up the correct curl with correct deps
-# But some issues with rust-openssl forces OPENSSL_* vars (rust-openssl/issues/351)
-# Additionally SSL cert directories get overridden by --prefix and --openssldir
+# SSL cert directories get overridden by --prefix and --openssldir
 # and they do not match the typical host configurations.
-# The SSL_CERT_* vars fix this, but only when inside the container
-# musl-compiled binary must point SSL at the correct certs (muslrust/issues/5)
-ENV OPENSSL_LIB_DIR=$PREFIX/lib \
-    OPENSSL_INCLUDE_DIR=$PREFIX/include \
-    OPENSSL_STATIC=1 \
-    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+# The SSL_CERT_* vars fix this, but only when inside this container
+# musl-compiled binary must point SSL at the correct certs (muslrust/issues/5) elsewhere
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     SSL_CERT_DIR=/etc/ssl/certs

@@ -3,7 +3,7 @@ SHELL := /bin/bash
 .PHONY: build run test push
 
 build:
-	docker build --no-cache -t clux/muslrust .
+	docker build -t clux/muslrust .
 run:
 	docker run -v $$PWD/test:/volume  -w /volume -it clux/muslrust /bin/bash
 
