@@ -52,5 +52,10 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
 # and they do not match the typical host configurations.
 # The SSL_CERT_* vars fix this, but only when inside this container
 # musl-compiled binary must point SSL at the correct certs (muslrust/issues/5) elsewhere
+# OPENSSL_ vars are backwards compat with older rust-openssl and are not needed with new versions of it
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
-    SSL_CERT_DIR=/etc/ssl/certs
+    SSL_CERT_DIR=/etc/ssl/certs \
+    OPENSSL_LIB_DIR=$PREFIX/lib \
+    OPENSSL_INCLUDE_DIR=$PREFIX/include \
+    OPENSSL_DIR=$PREFIX \
+    OPENSSL_STATIC=1
