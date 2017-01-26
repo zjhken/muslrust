@@ -29,7 +29,7 @@ RUN curl https://static.rust-lang.org/rustup.sh | sh -s -- \
 
 # Compile C libraries with musl-gcc
 ENV SSL_VER=1.0.2j \
-    CURL_VER=7.51.0 \
+    CURL_VER=7.52.1 \
     CC=musl-gcc \
     PREFIX=/usr/local \
     PATH=/usr/local/bin:$PATH \
@@ -37,7 +37,7 @@ ENV SSL_VER=1.0.2j \
 
 RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
-    ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl no-zlib linux-x86_64 && \
+    ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl no-zlib linux-x86_64 -fPIC && \
     make depend 2> /dev/null && make -j$(nproc) && make install && \
     cd .. && rm -rf openssl-$SSL_VER
 
