@@ -1,13 +1,20 @@
 extern crate hyper;
+extern crate hyper_openssl;
 
 use std::process;
 use std::io::Read;
 use std::env;
 use hyper::Client;
 
+use hyper::net::HttpsConnector;
+use hyper_openssl::OpensslClient;
+
 // simple request body fetcher
 fn hyper_req(url: &str) -> String {
-    let client = Client::new();
+    let ssl = OpensslClient::new().unwrap();
+    let connector = HttpsConnector::new(ssl);
+    let client = Client::with_connector(connector);
+
     let mut res = client.get(url).send().unwrap();
     if res.status != hyper::Ok {
         println!("Failed to fetch url {}", url);
