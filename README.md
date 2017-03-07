@@ -36,9 +36,10 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
-- [ ] ~~zlib ([zlib-sys crate](https://github.com/alexcrichton/libz-sys))~~
 
-You shouldn't need zlib as `flate2` bundles `miniz.c` as the default implementation.
+We try to keep these up to date.
+
+zlib is not included as the common `flate2` crate bundles `miniz.c` as the default implementation, and this just works.
 
 ## Developing
 Clone, tweak, build, and run tests:
@@ -60,3 +61,29 @@ export SSL_CERT_DIR=/etc/ssl/certs
 ```
 
 You can also hardcode this in your binary, or, more sensibly set it in your running docker image.
+
+## Caching Cargo Locally
+Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo` to the docker run command.
+
+You'll have an extra volume that you can inspect with `docker volume inspect cargo-cache`.
+
+Suggested developer usage is to add the following function to your `~/.bashrc`:
+
+```sh
+musl-build() {
+  docker run \
+    -v cargo-cache:/root/.cargo \
+    -v "$PWD:/volume" -w /volume \
+    --rm -it clux/muslrust cargo build --release
+}
+```
+
+Then use in your project:
+
+```sh
+$ cd myproject
+$ musl-build
+    Finished release [optimized] target(s) in 0.0 secs
+```
+
+Second time around this will be quick, and you can even mix it with native `cargo build` calls without screwing with your cache.
