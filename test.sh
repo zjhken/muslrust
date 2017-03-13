@@ -7,6 +7,7 @@ docker_build() {
     --rm \
     -v "$PWD/test/${crate}:/volume" \
     -w /volume \
+    -e RUST_BACKTRACE=1 \
     -t clux/muslrust \
     cargo build --verbose
   cd "test/${crate}"
