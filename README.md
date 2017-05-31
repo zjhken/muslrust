@@ -11,7 +11,7 @@ This is only useful if you require external C dependencies, because otherwise yo
 
 This container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
 
-For a more general solution to cross compiling rust binaries (with or without musl) please check out [cross](https://github.com/japaric/cross).
+If you already have [rustup](https://www.rustup.rs/) installed on the machine that should compile, you might consider [cross](https://github.com/japaric/cross) as a more general solution for cross compiling rust binaries.
 
 ## Usage
 Pull and run from a rust project root:
