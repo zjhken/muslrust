@@ -4,5 +4,7 @@ name = "hypercrate"
 version = "0.1.0"
 
 [dependencies]
-hyper = "*"
-hyper-openssl = "*"
+futures = "0.1.14"
+hyper = "0.11"
+hyper-openssl = "0.3"
+tokio-core = "0.1.8"
