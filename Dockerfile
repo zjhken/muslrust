@@ -19,10 +19,14 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-RUN curl https://static.rust-lang.org/rustup.sh | sh -s -- \
+ARG NIGHTLY_SNAPSHOT=""
+
+RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi &&\
+  curl https://static.rust-lang.org/rustup.sh | sh -s -- \
   --with-target=x86_64-unknown-linux-musl \
   --yes \
   --disable-sudo \
+  ${DATEARG} \
   --channel=nightly && \
   mkdir /.cargo && \
   echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
