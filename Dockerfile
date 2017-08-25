@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER Eirik Albrigtsen <analsandblaster@gmail.com>
+MAINTAINER Eirik Albrigtsen <sszynrae@gmail.com>
 
 RUN apt-get update && apt-get install -y \
   cmake \

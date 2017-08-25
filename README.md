@@ -5,7 +5,7 @@ https://hub.docker.com/r/clux/muslrust/)
 [![docker image info](https://images.microbadger.com/badges/image/clux/muslrust.svg)](http://microbadger.com/images/clux/muslrust)
 [![docker tag](https://images.microbadger.com/badges/version/clux/muslrust.svg)](https://hub.docker.com/r/clux/muslrust/tags/)
 
-A plain docker environment for building static binaries compiled with rust and linked against musl instead of glibc.
+A plain docker environment for building static binaries compiled with rust and linked against musl instead of glibc. Built nightly on travis.
 
 This is only useful if you require external C dependencies, because otherwise you could do `rustup target add x86_64-unknown-linux-musl`.
 
