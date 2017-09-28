@@ -38,6 +38,7 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
+- [x] pq ([pq crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
 
 We try to keep these up to date.
 

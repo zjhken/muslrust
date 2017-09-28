@@ -34,6 +34,7 @@ RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi
 # Compile C libraries with musl-gcc
 ENV SSL_VER=1.0.2l \
     CURL_VER=7.55.1 \
+    POSTGRESQL_VER=9.6.5 \
     CC=musl-gcc \
     PREFIX=/usr/local \
     PATH=/usr/local/bin:$PATH \
@@ -51,6 +52,14 @@ RUN curl https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
       --with-ca-path=/etc/ssl/certs/ --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt --without-ca-fallback && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf curl-$CURL_VER
+
+ENV PKG_CONFIG_ALL_STATIC=1 \
+    PQ_LIB_STATIC=1
+RUN curl https://ftp.postgresql.org/pub/source/v$POSTGRESQL_VER/postgresql-$POSTGRESQL_VER.tar.bz2 | tar xj && \
+    cd postgresql-$POSTGRESQL_VER && \
+    ./configure --with-openssl --without-readline --without-zlib --prefix=$PREFIX --with-libs=$PREFIX/lib --with-includes=$PREFIX/include && \
+    make && make install && \
+    cd .. && rm -rf postgresql-$POSTGRESQL_VER
 
 # SSL cert directories get overridden by --prefix and --openssldir
 # and they do not match the typical host configurations.
