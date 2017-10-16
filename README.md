@@ -18,7 +18,7 @@ Pull and run from a rust project root:
 
 ```sh
 docker pull clux/muslrust
-docker run -v $PWD:/volume -w /volume -t clux/muslrust cargo build
+docker run -v $PWD:/volume -t clux/muslrust cargo build
 ```
 
 You should have a static executable in the target folder:
@@ -82,7 +82,7 @@ Suggested developer usage is to add the following function to your `~/.bashrc`:
 musl-build() {
   docker run \
     -v cargo-cache:/root/.cargo \
-    -v "$PWD:/volume" -w /volume \
+    -v "$PWD:/volume" \
     --rm -it clux/muslrust cargo build --release
 }
 ```
