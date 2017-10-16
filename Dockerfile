@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
   g++ \
   python \
   make \
-  nano \
   ca-certificates \
   xz-utils \
   musl-tools \
