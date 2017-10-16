@@ -9,7 +9,7 @@ A plain docker environment for building static binaries compiled with rust and l
 
 This is only useful if you require external C dependencies, because otherwise you could do `rustup target add x86_64-unknown-linux-musl`.
 
-This container comes with `openssl` and `curl` compiled against `musl-gcc` so that we can statically link against these system libraries as well.
+This container [comes with a bunch of statically compiled C libraries](#c-libraries) using `musl-gcc` so that we can statically link against these as well.
 
 If you already have [rustup](https://www.rustup.rs/) installed on the machine that should compile, you might consider [cross](https://github.com/japaric/cross) as a more general solution for cross compiling rust binaries.
 
