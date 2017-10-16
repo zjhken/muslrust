@@ -13,6 +13,8 @@ test-curl:
 	./test.sh curl
 test-pq:
 	./test.sh pq
+test-diesel:
+	./test.sh diesel
 test-ssl:
 	./test.sh ssl
 test-zlib:
