@@ -64,10 +64,10 @@ export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 export SSL_CERT_DIR=/etc/ssl/certs
 ```
 
-You can also hardcode this in your binary, or, more sensibly set it in your running docker image.
+You can also hardcode this in your binary, or, more sensibly set it in your running docker image. The [openssl-probe crate](https://crates.io/crates/openssl-probe) can be also be used to detect where these reside.
 
 ## Diesel and PQ builds
-Currently experimental. Core `diesel` should work, but `diesel_codegen` currently fails to link.
+Currently experimental. Core `diesel` should work, but `diesel_codegen` forces dynamic linkage. See the [test/dieselcrate](./test/dieselcrate) for usage information within an alpine world.
 
 For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`.
 
