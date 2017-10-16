@@ -38,10 +38,12 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
+- [x] pq ([pq crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
+- [x] zlib (used by pq and openssl)
 
 We try to keep these up to date.
 
-zlib is not included as the common `flate2` crate bundles `miniz.c` as the default implementation, and this just works.
+If it weren't for pq, we could ditch zlib as the `flate2` crate bundles `miniz.c` as the default implementation, and this just works. Similarly, curl is only needed for people using the C bindings to curl over [hyper](https://hyper.rs/).
 
 ## Developing
 Clone, tweak, build, and run tests:
@@ -63,6 +65,11 @@ export SSL_CERT_DIR=/etc/ssl/certs
 ```
 
 You can also hardcode this in your binary, or, more sensibly set it in your running docker image.
+
+## Diesel and PQ builds
+Currently experimental. Core `diesel` should work, but `diesel_codegen` currently fails to link.
+
+For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`.
 
 ## Caching Cargo Locally
 Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo` to the docker run command.
