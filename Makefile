@@ -11,6 +11,10 @@ test-plain:
 	./test.sh plain
 test-curl:
 	./test.sh curl
+test-serde:
+	./test.sh serde
+test-rocket:
+	./test.sh rocket
 test-pq:
 	./test.sh pq
 test-diesel:
