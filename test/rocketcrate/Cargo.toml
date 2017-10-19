@@ -6,3 +6,6 @@ version = "0.1.0"
 [dependencies]
 rocket = "0.3.3"
 rocket_codegen = "0.3.3"
+
+[patch.crates-io]
+ring = { git = 'https://github.com/clux/ring' }
