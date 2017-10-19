@@ -54,7 +54,16 @@ make build
 make test
 ```
 
-The tests verify that you can use `hyper`, `curl`, `openssl`, `flate2`, and `rand` in simplistic ways.
+Before we push a new version of muslrust we ensure that we can use and statically link:
+
+- [x] `serde`
+- [x] `rocket`
+- [ ] `diesel` (diesel_codegen is currently broken)
+- [x] `hyper`
+- [x] `curl`
+- [x] `openssl`
+- [x] `flate2`
+- [x] `rand`
 
 ## SSL Verification
 You need to point openssl at the location of your certificates explicitly to have https requests not return certificate errors.
@@ -67,9 +76,9 @@ export SSL_CERT_DIR=/etc/ssl/certs
 You can also hardcode this in your binary, or, more sensibly set it in your running docker image. The [openssl-probe crate](https://crates.io/crates/openssl-probe) can be also be used to detect where these reside.
 
 ## Diesel and PQ builds
-Currently experimental. Core `diesel` should work, but `diesel_codegen` forces dynamic linkage. See the [test/dieselcrate](./test/dieselcrate) for usage information within an alpine world.
+Currently experimental. Core `diesel` should work, but `diesel_codegen` forces dynamic linkage and thus breaks, but libpq works standalone. See the [test/dieselcrate](./test/dieselcrate) for current ideas (but again, **currently broken**).
 
-For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`.
+For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`. It's probably easier to just make `diesel print-schema > src/schema.rs` part of your migration setup though.
 
 ## Caching Cargo Locally
 Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo` to the docker run command.
