@@ -34,6 +34,6 @@ clean-builds:
 	sudo find . -mindepth 3 -maxdepth 3 -name target -exec rm -rf {} \;
 clean: clean-docker clean-lock clean-builds
 
-test: test-plain test-ssl test-pq test-curl test-zlib test-hyper
-.PHONY: test-plain test-ssl test-pq test-curl test-zlib test-hyper
+test: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper
+.PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-diesel
 

@@ -1,14 +1,15 @@
-FROM debian:stretch
+FROM ubuntu:xenial
 MAINTAINER Eirik Albrigtsen <sszynrae@gmail.com>
+# NB: currently using xenial because newer ubuntus or debians force fPIC
+# and ring complains at fPIC when compiling rocket
 
 # Required packages:
 # - musl-dev, musl-tools - the musl toolchain
 # - curl, g++, make, pkgconf, cmake - for fetching and building third party libs
 # - ca-certificates - openssl + curl + peer verification of downloads
-# - xutils-dev - for openssl build
+# - xutils-dev - for openssl makedepend
 # - git - cargo builds in user projects
-# - libpq-dev, libssl-dev - for diesel_codegen which forces dynamic linking atm
-# - linux-headers-amd64 - needed for building openssl 1.1
+# - linux-headers-amd64 - needed for building openssl 1.1 (stretch only)
 # - file - needed by rustup.sh install
 # recently removed:
 # cmake (not used), nano, zlib1g-dev
@@ -21,13 +22,11 @@ RUN apt-get update && apt-get install -y \
   g++ \
   curl \
   pkgconf \
-  linux-headers-amd64 \
   ca-certificates \
   xutils-dev \
-  libpq-dev \
-  libssl-dev \
   --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
+
 
 # Install rust (old fashioned way to avoid unnecessary rustup.rs shenanigans)
 ARG NIGHTLY_SNAPSHOT=""
@@ -62,8 +61,9 @@ RUN curl -sSL http://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
 # Build openssl (used in curl and pq)
 RUN curl -sSL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
-    env CC="musl-gcc -fPIC" ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl linux-x86_64 -fPIC && \
-    env C_INCLUDE_PATH=$PREFIX/musl/include make depend 2> /dev/null && make -j$(nproc) && make install && \
+    ./Configure no-shared no-zlib -fPIC --prefix=$PREFIX --openssldir=$PREFIX/ssl linux-x86_64 && \
+    env C_INCLUDE_PATH=$PREFIX/musl/include make depend 2> /dev/null && \
+    make -j$(nproc) && make install && \
     cd .. && rm -rf openssl-$SSL_VER
 
 # Build curl
@@ -77,9 +77,9 @@ RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
 # Build libpq
 RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.tar.gz | tar xz && \
     cd postgresql-$PQ_VER && \
-    CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include -static" ./configure \
+    CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
     --without-readline --with-openssl --with-zlib \
-    --prefix=$PREFIX --libdir=$PREFIX/lib --host=x86_64-unknown-linux-musl && \
+    --prefix=$PREFIX --host=x86_64-unknown-linux-musl && \
     cd src/interfaces/libpq && \
     make -j$(nproc) all-static-lib && make install-lib-static && \
     cd ../../../.. && rm -rf postgresql-$PQ_VER
