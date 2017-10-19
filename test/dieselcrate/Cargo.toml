@@ -1,0 +1,12 @@
+[package]
+authors = ["clux <sszynrae@gmail.com>"]
+name = "dieselcrate"
+version = "0.1.0"
+
+[dependencies.diesel]
+features = ["postgres"]
+version = "0.16.0"
+
+[dependencies.diesel_codegen]
+features = ["postgres"]
+version = "0.16.0"

@@ -11,8 +11,14 @@ test-plain:
 	./test.sh plain
 test-curl:
 	./test.sh curl
+test-serde:
+	./test.sh serde
+test-rocket:
+	./test.sh rocket
 test-pq:
 	./test.sh pq
+test-diesel:
+	./test.sh diesel
 test-ssl:
 	./test.sh ssl
 test-zlib:
@@ -28,6 +34,6 @@ clean-builds:
 	sudo find . -mindepth 3 -maxdepth 3 -name target -exec rm -rf {} \;
 clean: clean-docker clean-lock clean-builds
 
-test: test-plain test-ssl test-pq test-curl test-zlib test-hyper
-.PHONY: test-plain test-ssl test-pq test-curl test-zlib test-hyper
+test: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper
+.PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-diesel
 

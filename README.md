@@ -18,7 +18,7 @@ Pull and run from a rust project root:
 
 ```sh
 docker pull clux/muslrust
-docker run -v $PWD:/volume -w /volume -t clux/muslrust cargo build
+docker run -v $PWD:/volume -t clux/muslrust cargo build
 ```
 
 You should have a static executable in the target folder:
@@ -64,10 +64,10 @@ export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 export SSL_CERT_DIR=/etc/ssl/certs
 ```
 
-You can also hardcode this in your binary, or, more sensibly set it in your running docker image.
+You can also hardcode this in your binary, or, more sensibly set it in your running docker image. The [openssl-probe crate](https://crates.io/crates/openssl-probe) can be also be used to detect where these reside.
 
 ## Diesel and PQ builds
-Currently experimental. Core `diesel` should work, but `diesel_codegen` currently fails to link.
+Currently experimental. Core `diesel` should work, but `diesel_codegen` forces dynamic linkage. See the [test/dieselcrate](./test/dieselcrate) for usage information within an alpine world.
 
 For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`.
 
@@ -82,7 +82,7 @@ Suggested developer usage is to add the following function to your `~/.bashrc`:
 musl-build() {
   docker run \
     -v cargo-cache:/root/.cargo \
-    -v "$PWD:/volume" -w /volume \
+    -v "$PWD:/volume" \
     --rm -it clux/muslrust cargo build --release
 }
 ```
