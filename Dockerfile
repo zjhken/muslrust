@@ -24,8 +24,10 @@ RUN apt-get update && apt-get install -y \
   pkgconf \
   ca-certificates \
   xutils-dev \
-  --no-install-recommends && \
-  rm -rf /var/lib/apt/lists/*
+  --no-install-recommends
+
+#   && \
+#  rm -rf /var/lib/apt/lists/*
 
 
 # Install rust (old fashioned way to avoid unnecessary rustup.rs shenanigans)
@@ -47,22 +49,34 @@ ENV SSL_VER=1.0.2l \
     ZLIB_VER=1.2.11 \
     PQ_VER=9.6.5 \
     CC=musl-gcc \
-    PREFIX=/usr/local \
+    PREFIX=/musl \
     PATH=/usr/local/bin:$PATH \
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
+    LD_LIBRARY_PATH=$PREFIX
+
+RUN mkdir /workdir && mkdir $PREFIX
+WORKDIR /libworkdir
+
+# Tricks
+RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/x86_64-linux-musl/asm && \
+    ln -s /usr/include/asm-generic /usr/include/x86_64-linux-musl/asm-generic && \
+    ln -s /usr/include/linux /usr/include/x86_64-linux-musl/linux
+RUN echo "$PREFIX/lib" >> /etc/ld-musl-x86_64.path
+
+
 
 # Build zlib (used in openssl and pq)
 RUN curl -sSL http://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
     cd zlib-$ZLIB_VER && \
-    CC="musl-gcc -fPIC" ./configure --static --prefix=$PREFIX && \
+    CC="musl-gcc -fPIC -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure --static --prefix=$PREFIX && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf zlib-$ZLIB_VER
 
 # Build openssl (used in curl and pq)
 RUN curl -sSL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
-    ./Configure no-shared no-zlib -fPIC --prefix=$PREFIX --openssldir=$PREFIX/ssl linux-x86_64 && \
-    env C_INCLUDE_PATH=$PREFIX/musl/include make depend 2> /dev/null && \
+    ./Configure no-zlib no-shared -fPIC --prefix=$PREFIX --openssldir=$PREFIX/ssl linux-x86_64 && \
+    env C_INCLUDE_PATH=$PREFIX/include make depend 2> /dev/null && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf openssl-$SSL_VER
 
@@ -78,11 +92,15 @@ RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
 RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.tar.gz | tar xz && \
     cd postgresql-$PQ_VER && \
     CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
-    --without-readline --with-openssl --with-zlib \
+    --without-readline \
     --prefix=$PREFIX --host=x86_64-unknown-linux-musl && \
-    cd src/interfaces/libpq && \
-    make -j$(nproc) all-static-lib && make install-lib-static && \
-    cd ../../../.. && rm -rf postgresql-$PQ_VER
+    make -j$(nproc) && make install && \
+    cd .. && rm -rf postgresql-$PQ_VER
+
+# Need dynamic versions of libpq and libssl for diesel_codegen during the build phase
+# All the dynamic artifacts from our compiled libpq can be removed though
+RUN rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf && \
+    apt-get install -y libssl-dev libpq-dev
 
 # SSL cert directories get overridden by --prefix and --openssldir
 # and they do not match the typical host configurations.
@@ -92,6 +110,7 @@ ENV PATH=$PREFIX/bin:$PATH \
     PKG_CONFIG_ALLOW_CROSS=1 \
     PKG_CONFIG_ALL_STATIC=1 \
     PQ_LIB_STATIC_X86_64_UNKNOWN_LINUX_MUSL=true \
+    PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig \
     PG_CONFIG_X86_64_UNKNOWN_LINUX_GNU=/usr/bin/pg_config \
     OPENSSL_STATIC=true \
     OPENSSL_DIR=$PREFIX \

@@ -10,3 +10,6 @@ version = "0.16.0"
 [dependencies.diesel_codegen]
 features = ["postgres"]
 version = "0.16.0"
+
+[patch.crates-io]
+pq-sys = { git = 'https://github.com/golddranks/pq-sys' }

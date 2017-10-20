@@ -37,7 +37,7 @@ docker_build_golddranks() {
     -v "$PWD/test/${crate}:/workdir" \
     -e RUST_BACKTRACE=1 \
     -it golddranks/rust_musl_docker:nightly-2017-10-03 \
-    cargo build -vv
+    cargo build -vv --target=x86_64-unknown-linux-musl
   cd "test/${crate}"
   ./target/x86_64-unknown-linux-musl/debug/"${crate}"
   [[ "$(ldd "target/x86_64-unknown-linux-musl/debug/${crate}")" =~ "not a dynamic" ]] && \

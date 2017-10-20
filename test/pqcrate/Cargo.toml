@@ -6,3 +6,6 @@ version = "0.1.0"
 [dependencies]
 pq-sys = "0.4.4"
 openssl = "*"
+
+[patch.crates-io]
+pq-sys = { git = 'https://github.com/golddranks/pq-sys' }
