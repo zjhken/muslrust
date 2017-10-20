@@ -83,7 +83,8 @@ RUN curl -sSL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && 
 # Build curl
 RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     cd curl-$CURL_VER && \
-    ./configure --enable-shared=no --enable-static=ssl --enable-optimize --prefix=$PREFIX \
+    CC="musl-gcc -fPIC -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
+      --enable-shared=no --with-zlib --enable-static=ssl --enable-optimize --prefix=$PREFIX \
       --with-ca-path=/etc/ssl/certs/ --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt --without-ca-fallback && \
     make -j$(nproc) && make install && \
     cd .. && rm -rf curl-$CURL_VER
@@ -107,8 +108,8 @@ RUN rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf
 # The SSL_CERT_* vars fix this, but only when inside this container
 # musl-compiled binary must point SSL at the correct certs (muslrust/issues/5) elsewhere
 ENV PATH=$PREFIX/bin:$PATH \
-    PKG_CONFIG_ALLOW_CROSS=1 \
-    PKG_CONFIG_ALL_STATIC=1 \
+    PKG_CONFIG_ALLOW_CROSS=true \
+    PKG_CONFIG_ALL_STATIC=true \
     PQ_LIB_STATIC_X86_64_UNKNOWN_LINUX_MUSL=true \
     PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig \
     PG_CONFIG_X86_64_UNKNOWN_LINUX_GNU=/usr/bin/pg_config \

@@ -37,7 +37,14 @@ use diesel::prelude::*;
 use diesel::pg::PgConnection;
 
 fn main() {
-    let database_url = std::env::var("DATABASE_URL").unwrap();
-    PgConnection::establish(&database_url)
-        .expect(&format!("Error connecting to {}", database_url));
+    let database_url = std::env::var("DATABASE_URL").unwrap_or("postgres://localhost".into());
+    match PgConnection::establish(&database_url) {
+      Err(e) => {
+        println!("Should fail to connect here:");
+        println!("{}", e);
+      }
+      Ok(_) => {
+        unreachable!();
+      }
+    }
 }
