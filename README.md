@@ -58,7 +58,7 @@ Before we push a new version of muslrust we ensure that we can use and staticall
 
 - [x] `serde`
 - [x] `rocket`
-- [ ] `diesel` (diesel_codegen is currently broken)
+- [x] `diesel` (needs a fork of pq-sys currently)
 - [x] `hyper`
 - [x] `curl`
 - [x] `openssl`
@@ -76,7 +76,7 @@ export SSL_CERT_DIR=/etc/ssl/certs
 You can also hardcode this in your binary, or, more sensibly set it in your running docker image. The [openssl-probe crate](https://crates.io/crates/openssl-probe) can be also be used to detect where these reside.
 
 ## Diesel and PQ builds
-Currently experimental. Core `diesel` should work, but `diesel_codegen` forces dynamic linkage and thus breaks, but libpq works standalone. See the [test/dieselcrate](./test/dieselcrate) for current ideas (but again, **currently broken**).
+Very fresh. Core `diesel` works fine, but `diesel_codegen` needs a fork of `pq-sys`. See the [test/dieselcrate](./test/dieselcrate) for how to get this working.
 
 For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`. It's probably easier to just make `diesel print-schema > src/schema.rs` part of your migration setup though.
 
