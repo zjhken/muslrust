@@ -90,7 +90,6 @@ RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     cd .. && rm -rf curl-$CURL_VER
 
 # Build libpq
-# Want to build just static archives + pg_config, so build everything and delete shared objects
 RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.tar.gz | tar xz && \
     cd postgresql-$PQ_VER && \
     CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
@@ -104,9 +103,9 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
 # and they do not match the typical host configurations.
 # The SSL_CERT_* vars fix this, but only when inside this container
 # musl-compiled binary must point SSL at the correct certs (muslrust/issues/5) elsewhere
-# Postgres needs a bunch of vars to be able to handle diesel_codegen
-# because it creates a diesel_codegen.so at build time (using the gnu deps)
-# and so needs the non-musl pg_config to set this up with libpq-dev
+# Postgres bindings need vars so that diesel_codegen.so uses the GNU deps at build time
+# but finally links with the static libpq.a at the end.
+# It needs the non-musl pg_config to set this up with libpq-dev (depending on libssl-dev)
 # See https://github.com/sgrif/pq-sys/pull/18
 ENV PATH=$PREFIX/bin:$PATH \
     PKG_CONFIG_ALLOW_CROSS=true \
