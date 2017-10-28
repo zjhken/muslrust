@@ -119,7 +119,5 @@ app_1  |    3:           0x875392 - <unknown>
 
 To debug in the container, you seem to need to have the `rust` package installed (from `apk`), as well as debug symbols compiled in (to get line numbers).
 
-As a general word of advice, be careful with calling `strip` on a release executables. It has [seen crashes before](https://github.com/rust-lang/rust/issues/39468), and think it can still happen.
-
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) for a complete life-cycle example of a rust cloud application on alpine built on CI.
