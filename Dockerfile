@@ -96,7 +96,7 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
     CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
     --without-readline \
     --prefix=$PREFIX --host=x86_64-unknown-linux-musl && \
-    make -j$(nproc) && make install && \
+    make -s -j$(nproc) && make -s install && \
     rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf &&  \
     cd .. && rm -rf postgresql-$PQ_VER
 
