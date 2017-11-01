@@ -86,7 +86,7 @@ RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     CC="musl-gcc -fPIC -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
       --enable-shared=no --with-zlib --enable-static=ssl --enable-optimize --prefix=$PREFIX \
       --with-ca-path=/etc/ssl/certs/ --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt --without-ca-fallback && \
-    make -j$(nproc) curl_LDFLAGS="-all-static" VERBOSE=1 && make install && \
+    make -j$(nproc) curl_LDFLAGS="-all-static" && make install && \
     cd .. && rm -rf curl-$CURL_VER
 
 # Build libpq
