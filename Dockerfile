@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # Install rust (old fashioned way to avoid unnecessary rustup.rs shenanigans)
+ARG CHANNEL="nightly"
 ARG NIGHTLY_SNAPSHOT=""
 RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi &&\
   curl https://static.rust-lang.org/rustup.sh | sh -s -- \
@@ -37,7 +38,7 @@ RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi
   --yes \
   --disable-sudo \
   ${DATEARG} \
-  --channel=nightly && \
+  --channel=${CHANNEL} && \
   mkdir /.cargo && \
   echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
 
