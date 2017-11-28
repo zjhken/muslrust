@@ -10,14 +10,20 @@ script:
 - export MEDIUM_TAG="${RUST_CHANNEL}-${RUST_DATE}"
 - export SHORT_TAG="${RUST_CHANNEL}"
 - make test
-after_success:
-- docker push clux/muslrust
-- docker tag clux/muslrust clux/muslrust:$FULL_TAG
-- docker push clux/muslrust:$FULL_TAG
-- docker tag clux/muslrust clux/muslrust:$MEDIUM_TAG
-- docker push clux/muslrust:$MEDIUM_TAG
-- docker tag clux/muslrust clux/muslrust:$SHORT_TAG
-- docker push clux/muslrust:$SHORT_TAG
+after_success: |
+  if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    echo "latest"
+    docker push clux/muslrust
+    echo "${FULL_TAG}"
+    docker tag clux/muslrust clux/muslrust:$FULL_TAG
+    docker push clux/muslrust:$FULL_TAG
+    echo "${MEDIUM_TAG}"
+    docker tag clux/muslrust clux/muslrust:$MEDIUM_TAG
+    docker push clux/muslrust:$MEDIUM_TAG
+    echo "${SHORT_TAG}"
+    docker tag clux/muslrust clux/muslrust:$SHORT_TAG
+    docker push clux/muslrust:$SHORT_TAG
+  fi
 notifications:
   email:
     on_success: change
