@@ -18,8 +18,10 @@ test-rocket:
 	./test.sh rocket
 test-pq:
 	./test.sh pq
-test-diesel:
-	./test.sh diesel
+test-dieselpg:
+	./test.sh dieselpg
+test-dieselsqlite:
+	./test.sh dieselsqlite
 test-ssl:
 	./test.sh ssl
 test-zlib:
@@ -33,8 +35,9 @@ clean-lock:
 	sudo find . -iname Cargo.lock -exec rm {} \;
 clean-builds:
 	sudo find . -mindepth 3 -maxdepth 3 -name target -exec rm -rf {} \;
+	rm test/dieselsqlitecrate/main.db
 clean: clean-docker clean-lock clean-builds
 
-test: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-diesel
-.PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-diesel
+test: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
+.PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
 

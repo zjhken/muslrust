@@ -48,6 +48,7 @@ ENV SSL_VER=1.0.2l \
     CURL_VER=7.56.0 \
     ZLIB_VER=1.2.11 \
     PQ_VER=9.6.5 \
+    SQLITE_VER=3210000 \
     CC=musl-gcc \
     PREFIX=/musl \
     PATH=/usr/local/bin:$PATH \
@@ -99,6 +100,15 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
     make -s -j$(nproc) && make -s install && \
     rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf &&  \
     cd .. && rm -rf postgresql-$PQ_VER
+
+# Build libsqlite3 using same configuration as the alpine linux main/sqlite package
+RUN curl -sSL https://www.sqlite.org/2017/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
+    cd sqlite-autoconf-$SQLITE_VER && \
+    CFLAGS="-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_SECURE_DELETE -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE -DSQLITE_USE_URI -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_JSON1" \
+    CC="musl-gcc -fPIC -pie" \
+    ./configure --prefix=$PREFIX --host=x86_64-unknown-linux-musl --enable-threadsafe --enable-dynamic-extensions --disable-shared && \
+    make && make install && \
+    cd .. && rm -rf sqlite-autoconf-$SQLITE_VER
 
 # SSL cert directories get overridden by --prefix and --openssldir
 # and they do not match the typical host configurations.
