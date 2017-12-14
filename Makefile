@@ -14,6 +14,7 @@ test-curl:
 test-serde:
 	./test.sh serde
 test-rocket:
+	# TODO: only on nightly
 	./test.sh rocket
 test-pq:
 	./test.sh pq
