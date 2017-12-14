@@ -14,8 +14,9 @@ test-curl:
 test-serde:
 	./test.sh serde
 test-rocket:
-	# TODO: only on nightly
-	./test.sh rocket
+	if [ -z "$$RUST_CHANNEL" ] || [ "$$RUST_CHANNEL" = "nightly" ]; then \
+		./test.sh rocket; \
+	fi
 test-pq:
 	./test.sh pq
 test-dieselpg:
