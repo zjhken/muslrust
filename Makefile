@@ -36,9 +36,9 @@ clean-lock:
 	sudo find . -iname Cargo.lock -exec rm {} \;
 clean-builds:
 	sudo find . -mindepth 3 -maxdepth 3 -name target -exec rm -rf {} \;
-	rm test/dieselsqlitecrate/main.db
+	sudo rm -f test/dieselsqlitecrate/main.db
 clean: clean-docker clean-lock clean-builds
 
-test: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
+test: test-plain test-ssl test-pq test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
 .PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
 

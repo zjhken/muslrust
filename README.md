@@ -38,12 +38,15 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
-- [x] pq ([pq crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
+- [x] pq ([pq-sys crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
+- [x] sqlite3 ([libsqlite3-sys crate](https://github.com/jgallagher/rusqlite/tree/master/libsqlite3-sys) used by [diesel](https://github.com/diesel-rs/diesel))
 - [x] zlib (used by pq and openssl)
 
 We try to keep these up to date.
 
 If it weren't for pq, we could ditch zlib as the `flate2` crate bundles `miniz.c` as the default implementation, and this just works. Similarly, curl is only needed for people using the C bindings to curl over [hyper](https://hyper.rs/).
+
+If you need extra dependencies, you can follow the builder pattern approach by [portier-broker](https://github.com/portier/portier-broker/blob/master/Dockerfile)
 
 ## Developing
 Clone, tweak, build, and run tests:
@@ -57,13 +60,13 @@ make test
 Before we push a new version of muslrust we ensure that we can use and statically link:
 
 - [x] `serde`
-- [x] `rocket`
-- [x] `diesel` (needs a fork of pq-sys currently)
+- [x] `diesel` (postgres and sqlite - see note below for postgres)
 - [x] `hyper`
 - [x] `curl`
 - [x] `openssl`
 - [x] `flate2`
 - [x] `rand`
+- [ ] `rocket` (nightly only - [occasionally breaks](https://github.com/clux/muslrust/issues/32))
 
 ## SSL Verification
 You need to point openssl at the location of your certificates explicitly to have https requests not return certificate errors.
