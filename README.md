@@ -58,13 +58,13 @@ make test
 Before we push a new version of muslrust we ensure that we can use and statically link:
 
 - [x] `serde`
-- [x] `rocket`
 - [x] `diesel` (postgres and sqlite - see note below for postgres)
 - [x] `hyper`
 - [x] `curl`
 - [x] `openssl`
 - [x] `flate2`
 - [x] `rand`
+- [ ] `rocket` (nightly only - [occasionally breaks](https://github.com/clux/muslrust/issues/32))
 
 ## SSL Verification
 You need to point openssl at the location of your certificates explicitly to have https requests not return certificate errors.
