@@ -38,7 +38,8 @@ The following system libraries are compiled against `musl-gcc`:
 
 - [x] curl ([curl crate](https://github.com/carllerche/curl-rust))
 - [x] openssl ([openssl crate](https://github.com/sfackler/rust-openssl))
-- [x] pq ([pq crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
+- [x] pq ([pq-sys crate](https://github.com/sgrif/pq-sys) used by [diesel](https://github.com/diesel-rs/diesel))
+- [x] sqlite3 ([libsqlite3-sys crate](https://github.com/jgallagher/rusqlite/tree/master/libsqlite3-sys) used by [diesel](https://github.com/diesel-rs/diesel))
 - [x] zlib (used by pq and openssl)
 
 We try to keep these up to date.
@@ -58,7 +59,7 @@ Before we push a new version of muslrust we ensure that we can use and staticall
 
 - [x] `serde`
 - [x] `rocket`
-- [x] `diesel` (needs a fork of pq-sys currently)
+- [x] `diesel` (postgres and sqlite - see note below for postgres)
 - [x] `hyper`
 - [x] `curl`
 - [x] `openssl`
