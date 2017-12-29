@@ -46,6 +46,8 @@ We try to keep these up to date.
 
 If it weren't for pq, we could ditch zlib as the `flate2` crate bundles `miniz.c` as the default implementation, and this just works. Similarly, curl is only needed for people using the C bindings to curl over [hyper](https://hyper.rs/).
 
+If you need extra dependencies, you can follow the builder pattern approach by [portier-broker](https://github.com/portier/portier-broker/blob/master/Dockerfile)
+
 ## Developing
 Clone, tweak, build, and run tests:
 
