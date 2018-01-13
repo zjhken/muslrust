@@ -124,3 +124,10 @@ To debug in the container, you seem to need to have the `rust` package installed
 
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) for a complete life-cycle example of a rust cloud application on alpine built on CI.
+
+### Clippy
+If you need to install [clippy](https://github.com/rust-lang-nursery/rust-clippy) on a CI build image, you need to build it against the GNU toolchain (see [#37](https://github.com/clux/muslrust/issues/37#issuecomment-357314202):
+
+```sh
+CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu cargo install clippy
+```
