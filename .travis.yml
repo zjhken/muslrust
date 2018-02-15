@@ -2,7 +2,8 @@ language: generic
 services:
 - docker
 script:
-- export RUST_CHANNEL="nightly"
+- export RUST_CHANNEL="stable"
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 - if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   fi
@@ -15,7 +16,7 @@ script:
 - make test
 after_success: |
   if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
-    docker push clux/muslrust
+    #docker push clux/muslrust
     docker tag clux/muslrust clux/muslrust:$FULL_TAG
     docker push clux/muslrust:$FULL_TAG
     docker tag clux/muslrust clux/muslrust:$MEDIUM_TAG
