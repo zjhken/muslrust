@@ -15,7 +15,6 @@ script:
 - export SHORT_TAG="${RUST_CHANNEL}"
 - make test
 after_success: |
-  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     #docker push clux/muslrust
     docker tag clux/muslrust clux/muslrust:$FULL_TAG
     docker push clux/muslrust:$FULL_TAG
@@ -23,7 +22,6 @@ after_success: |
     docker push clux/muslrust:$MEDIUM_TAG
     docker tag clux/muslrust clux/muslrust:$SHORT_TAG
     docker push clux/muslrust:$SHORT_TAG
-  fi
 notifications:
   email:
     on_success: change
