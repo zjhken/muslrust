@@ -10,6 +10,7 @@ MAINTAINER Eirik Albrigtsen <sszynrae@gmail.com>
 # - git - cargo builds in user projects
 # - linux-headers-amd64 - needed for building openssl 1.1 (stretch only)
 # - file - needed by rustup.sh install
+# - automake autoconf libtool - support crates building C deps as part cargo build
 # recently removed:
 # cmake (not used), nano, zlib1g-dev
 RUN apt-get update && apt-get install -y \
@@ -25,6 +26,9 @@ RUN apt-get update && apt-get install -y \
   xutils-dev \
   libssl-dev \
   libpq-dev \
+  automake \
+  autoconf \
+  libtool \
   --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
