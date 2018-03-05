@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER Eirik Albrigtsen <sszynrae@gmail.com>
+LABEL maintainer="Eirik Albrigtsen <sszynrae@gmail.com>"
 
 # Required packages:
 # - musl-dev, musl-tools - the musl toolchain
