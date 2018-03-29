@@ -9,19 +9,19 @@ script:
 - docker build --build-arg CHANNEL=${RUST_CHANNEL} -t clux/muslrust .
 - export RUST_DATE=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}")
 - export RUST_VER=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]")
-- export FULL_TAG="${RUST_VER}-${RUST_CHANNEL}-${RUST_DATE}"
-- export MEDIUM_TAG="${RUST_CHANNEL}-${RUST_DATE}"
-- export SHORT_TAG="${RUST_CHANNEL}"
+- export TAG1="${RUST_VER}-${RUST_CHANNEL}"
+- export TAG2="${RUST_CHANNEL}-${RUST_DATE}"
+- export TAG3="${RUST_CHANNEL}"
 - make test
 after_success: |
   if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker push clux/muslrust
-    docker tag clux/muslrust clux/muslrust:$FULL_TAG
-    docker push clux/muslrust:$FULL_TAG
-    docker tag clux/muslrust clux/muslrust:$MEDIUM_TAG
-    docker push clux/muslrust:$MEDIUM_TAG
-    docker tag clux/muslrust clux/muslrust:$SHORT_TAG
-    docker push clux/muslrust:$SHORT_TAG
+    docker tag clux/muslrust clux/muslrust:$TAG1
+    docker push clux/muslrust:$TAG1
+    docker tag clux/muslrust clux/muslrust:$TAG2
+    docker push clux/muslrust:$TAG2
+    docker tag clux/muslrust clux/muslrust:$TAG3
+    docker push clux/muslrust:$TAG3
   fi
 notifications:
   email:
