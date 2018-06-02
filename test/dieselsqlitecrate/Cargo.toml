@@ -3,11 +3,5 @@ authors = ["clux <sszynrae@gmail.com>"]
 name = "dieselsqlitecrate"
 version = "0.1.0"
 
-[dependencies.diesel]
-features = ["sqlite"]
-version = "0.16.0"
-
-[dependencies.diesel_codegen]
-features = ["sqlite"]
-version = "0.16.0"
-
+[dependencies]
+diesel = { version = "1.2.*", features = ["sqlite"] }
