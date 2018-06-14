@@ -66,7 +66,7 @@ Before we push a new version of muslrust we ensure that we can use and staticall
 - [x] `openssl`
 - [x] `flate2`
 - [x] `rand`
-- [x] `rocket` (nightly only - [some gaps](https://github.com/clux/muslrust/issues/32))
+- [ ] `rocket` (nightly only - [some gaps](https://github.com/clux/muslrust/issues/32))
 
 ## SSL Verification
 You need to point openssl at the location of your certificates explicitly to have https requests not return certificate errors.
