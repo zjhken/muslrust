@@ -22,7 +22,7 @@ import re
 
 
 def convert_openssl_version(version):
-    """ Convert OpenSSL package versions to match upstream's format
+    """Convert OpenSSL package versions to match upstream's format
 
     >>> convert_openssl_version('1.0.2.o')
     '1.0.2o'
