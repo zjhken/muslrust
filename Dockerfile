@@ -49,7 +49,7 @@ RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
 ENV SSL_VER="1.0.2o" \
-    CURL_VER="7.60.0" \
+    CURL_VER="7.61.0" \
     ZLIB_VER="1.2.11" \
     PQ_VER="9.6.9" \
     SQLITE_VER="3240000" \
