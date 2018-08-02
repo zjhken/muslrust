@@ -2,8 +2,8 @@ language: generic
 services:
 - docker
 script:
-- export RUST_CHANNEL="stable"
-- if true || [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+- export RUST_CHANNEL="nightly"
+- if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   fi
 - docker build --build-arg CHANNEL=${RUST_CHANNEL} -t clux/muslrust .
@@ -14,7 +14,7 @@ script:
 - export TAG3="${RUST_CHANNEL}"
 - make test
 after_success: |
-  if true || [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker push clux/muslrust
     docker tag clux/muslrust clux/muslrust:$TAG1
     docker push clux/muslrust:$TAG1
