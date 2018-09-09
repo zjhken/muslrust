@@ -18,7 +18,7 @@ Pull and run from a rust project root:
 
 ```sh
 docker pull clux/muslrust
-docker run -v $PWD:/volume -t clux/muslrust cargo build
+docker run -v $PWD:/volume --rm -t clux/muslrust cargo build
 ```
 
 You should have a static executable in the target folder:
@@ -131,3 +131,6 @@ If you need to install [clippy](https://github.com/rust-lang-nursery/rust-clippy
 ```sh
 CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu cargo install clippy
 ```
+
+## SELinux
+On SELinux enabled systems like Fedora, you will need to [configure selinux labes](https://docs.docker.com/storage/bind-mounts/#mounting-into-a-non-empty-directory-on-the-container). E.g. adding the `:Z` or `:z` flags where appropriate: `-v $PWD:/volume:Z`.
