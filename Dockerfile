@@ -49,10 +49,10 @@ RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
 ENV SSL_VER="1.0.2p" \
-    CURL_VER="7.61.1" \
+    CURL_VER="7.62.0" \
     ZLIB_VER="1.2.11" \
-    PQ_VER="9.6.10" \
-    SQLITE_VER="3250200" \
+    PQ_VER="10.6" \
+    SQLITE_VER="3250300" \
     CC=musl-gcc \
     PREFIX=/musl \
     PATH=/usr/local/bin:$PATH \
