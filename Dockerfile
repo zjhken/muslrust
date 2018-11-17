@@ -32,19 +32,12 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-
-# Install rust (old fashioned way to avoid unnecessary rustup.rs shenanigans)
+# Install rust using rustup
 ARG CHANNEL="nightly"
-ARG NIGHTLY_SNAPSHOT=""
-RUN if test "${NIGHTLY_SNAPSHOT}"; then DATEARG="--date=${NIGHTLY_SNAPSHOT}"; fi &&\
-  curl https://static.rust-lang.org/rustup.sh | sh -s -- \
-  --with-target=x86_64-unknown-linux-musl \
-  --yes \
-  --disable-sudo \
-  ${DATEARG} \
-  --channel=${CHANNEL} && \
-  mkdir /.cargo && \
-  echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > /.cargo/config
+RUN curl https://sh.rustup.rs -sSf | \
+    sh -s -- -y --default-toolchain ${CHANNEL} && \
+    ~/.cargo/bin/rustup target add x86_64-unknown-linux-musl && \
+    echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > ~/.cargo/config
 
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
@@ -55,7 +48,7 @@ ENV SSL_VER="1.0.2p" \
     SQLITE_VER="3250300" \
     CC=musl-gcc \
     PREFIX=/musl \
-    PATH=/usr/local/bin:$PATH \
+    PATH=/usr/local/bin:/root/.cargo/bin:$PATH \
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
     LD_LIBRARY_PATH=$PREFIX
 

@@ -4,5 +4,4 @@ name = "rocketcrate"
 version = "0.1.0"
 
 [dependencies]
-rocket = "*"
-rocket_codegen = "*"
+rocket = "0.4.0-rc.1"

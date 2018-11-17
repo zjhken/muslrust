@@ -6,7 +6,7 @@ docker_build() {
   local -r crate="$1"crate
   docker run --rm \
     -v "$PWD/test/${crate}:/volume" \
-    -v cargo-cache:/root/.cargo \
+    -v cargo-cache:/root/.cargo/registry \
     -e RUST_BACKTRACE=1 \
     -it clux/muslrust \
     cargo build

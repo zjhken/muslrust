@@ -84,7 +84,7 @@ Works without fork now. See the [test/dieselpgcrate](./test/dieselpgcrate) for h
 For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`. It's probably easier to just make `diesel print-schema > src/schema.rs` part of your migration setup though.
 
 ## Caching Cargo Locally
-Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo` to the docker run command.
+Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo/registry` to the docker run command.
 
 You'll have an extra volume that you can inspect with `docker volume inspect cargo-cache`.
 
@@ -93,7 +93,7 @@ Suggested developer usage is to add the following function to your `~/.bashrc`:
 ```sh
 musl-build() {
   docker run \
-    -v cargo-cache:/root/.cargo \
+    -v cargo-cache:/root/.cargo/registry \
     -v "$PWD:/volume" \
     --rm -it clux/muslrust cargo build --release
 }
