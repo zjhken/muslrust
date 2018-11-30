@@ -110,7 +110,7 @@ $ musl-build
 Second time around this will be quick, and you can even mix it with native `cargo build` calls without screwing with your cache.
 
 ## Debugging on alpine
-If you are running a plain alpine/scratch container with your musl binary in there, then even if you add `ENV RUST_BACKTRACE=full` to your `Dockerfile`, your stacktraces will look like a longer version of this:
+If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. Previously, stacktraces looked like this:
 
 ```sh
 app_1  | stack backtrace:
@@ -120,7 +120,7 @@ app_1  |    2:           0x875623 - <unknown>
 app_1  |    3:           0x875392 - <unknown>
 ```
 
-To debug in the container, you seem to need to have the `rust` package installed (from `apk`), as well as debug symbols compiled in (to get line numbers).
+and you needed to install have the `rust` package installed (from `apk`), as well to get line numbers.
 
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) for a complete life-cycle example of a rust cloud application on alpine built on CI.
