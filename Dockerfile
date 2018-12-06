@@ -41,11 +41,11 @@ RUN curl https://sh.rustup.rs -sSf | \
 
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
-ENV SSL_VER="1.0.2p" \
+ENV SSL_VER="1.0.2q" \
     CURL_VER="7.62.0" \
     ZLIB_VER="1.2.11" \
     PQ_VER="10.6" \
-    SQLITE_VER="3250300" \
+    SQLITE_VER="3260000" \
     CC=musl-gcc \
     PREFIX=/musl \
     PATH=/usr/local/bin:/root/.cargo/bin:$PATH \
