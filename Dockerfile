@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
   musl-tools \
   file \
   git \
+  openssh-client \
   make \
   g++ \
   curl \
