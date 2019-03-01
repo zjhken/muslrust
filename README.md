@@ -110,20 +110,10 @@ $ musl-build
 Second time around this will be quick, and you can even mix it with native `cargo build` calls without screwing with your cache.
 
 ## Debugging on alpine
-If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. Previously, stacktraces looked like this:
-
-```sh
-app_1  | stack backtrace:
-app_1  |    0:           0x870b03 - <unknown>
-app_1  |    1:           0x86ca10 - <unknown>
-app_1  |    2:           0x875623 - <unknown>
-app_1  |    3:           0x875392 - <unknown>
-```
-
-and you needed to install have the `rust` package installed (from `apk`), as well to get line numbers.
+If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. If that doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though! Adding the sentry client
 
 ## Using muslrust on CI
-Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) for a complete life-cycle example of a rust cloud application on alpine built on CI.
+Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first one is a demo, second one has more stuff).
 
 ### Clippy
 If you need to install [clippy](https://github.com/rust-lang-nursery/rust-clippy) on a CI build image, you need to build it against the GNU toolchain (see [#37](https://github.com/clux/muslrust/issues/37#issuecomment-357314202)):
