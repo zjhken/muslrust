@@ -110,7 +110,7 @@ $ musl-build
 Second time around this will be quick, and you can even mix it with native `cargo build` calls without screwing with your cache.
 
 ## Debugging on alpine
-If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. If that doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though! Adding the sentry client
+If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. If that doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though! The sentry client seems to extract everything fine these days in a blank alpine container.
 
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first one is a demo, second one has more stuff).
