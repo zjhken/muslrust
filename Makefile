@@ -21,6 +21,8 @@ test-pq:
 	./test.sh pq
 test-dieselpg:
 	./test.sh dieselpg
+test-dieselpgssl:
+	./test.sh dieselpgssl
 test-dieselsqlite:
 	./test.sh dieselsqlite
 test-ssl:
