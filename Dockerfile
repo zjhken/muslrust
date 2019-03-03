@@ -90,17 +90,18 @@ RUN curl -sSL https://curl.haxx.se/download/curl-$CURL_VER.tar.gz | tar xz && \
     cd .. && rm -rf curl-$CURL_VER
 
 # Build libpq
+# TODO: fix so that --with-openssl works with pqssl tests
 RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.tar.gz | tar xz && \
     cd postgresql-$PQ_VER && \
     CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
     --without-readline \
     --prefix=$PREFIX --host=x86_64-unknown-linux-musl && \
-    make -s -j$(nproc) && make -s install && \
-    rm $PREFIX/lib/*.so && rm $PREFIX/lib/*.so.* && rm $PREFIX/lib/postgres* -rf &&  \
+    cd src/interfaces/libpq make -s -j$(nproc) all-static-lib && make -s install install-lib-static && \
+    cd ../../bin/pg_config && make -j $(nproc) && make install && \
     cd .. && rm -rf postgresql-$PQ_VER
 
 # Build libsqlite3 using same configuration as the alpine linux main/sqlite package
-RUN curl -sSL https://www.sqlite.org/2018/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
+RUN curl -sSL https://www.sqlite.org/2019/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
     cd sqlite-autoconf-$SQLITE_VER && \
     CFLAGS="-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_SECURE_DELETE -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE -DSQLITE_USE_URI -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_JSON1" \
     CC="musl-gcc -fPIC -pie" \
