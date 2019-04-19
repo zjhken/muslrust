@@ -95,6 +95,7 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
     cd postgresql-$PQ_VER && \
     CC="musl-gcc -fPIE -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure \
     --without-readline \
+    --with-openssl \
     --prefix=$PREFIX --host=x86_64-unknown-linux-musl && \
     cd src/interfaces/libpq make -s -j$(nproc) all-static-lib && make -s install install-lib-static && \
     cd ../../bin/pg_config && make -j $(nproc) && make install && \

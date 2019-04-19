@@ -1,5 +1,8 @@
-#[macro_use] extern crate diesel;
+// The order of these extern crate lines matter for ssl!
 extern crate openssl;
+#[macro_use] extern crate diesel;
+// openssl must be included before diesel atm.
+
 use std::env;
 
 fn main() {
