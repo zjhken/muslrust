@@ -83,6 +83,15 @@ Works without fork now. See the [test/dieselpgcrate](./test/dieselpgcrate) for h
 
 For stuff like `infer_schema!` to work you need to explicitly pass on `-e DATABASE_URL=$DATABASE_URL` to the `docker run`. It's probably easier to just make `diesel print-schema > src/schema.rs` part of your migration setup though.
 
+Note that diesel compiles with `openssl` statically since `1.34.0`, so you need to include the `openssl` crate **before** `diesel` due to [pq-sys#25](https://github.com/sgrif/pq-sys/issues/25):
+
+```rs
+extern crate openssl;
+#[macro_use] extern crate diesel;
+```
+
+This is true even if you connect without `sslmode=require`.
+
 ## Caching Cargo Locally
 Repeat builds locally are always from scratch (thus slow) without a cached cargo directory. You can set up a docker volume by just adding `-v cargo-cache:/root/.cargo/registry` to the docker run command.
 

@@ -21,8 +21,6 @@ test-pq:
 	./test.sh pq
 test-dieselpg:
 	./test.sh dieselpg
-test-dieselpgssl:
-	./test.sh dieselpgssl
 test-dieselsqlite:
 	./test.sh dieselsqlite
 test-ssl:
@@ -41,6 +39,6 @@ clean-builds:
 	sudo rm -f test/dieselsqlitecrate/main.db
 clean: clean-docker clean-lock clean-builds
 
-test: test-plain test-ssl test-pq test-serde test-curl test-zlib test-hyper test-dieselpgssl test-dieselsqlite
+test: test-plain test-ssl test-pq test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
 .PHONY: test-plain test-ssl test-pq test-rocket test-serde test-curl test-zlib test-hyper test-dieselpg test-dieselsqlite
 
