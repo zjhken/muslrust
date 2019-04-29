@@ -7,11 +7,11 @@ https://hub.docker.com/r/clux/muslrust/)
 
 A plain docker environment for building static binaries compiled with rust and linked against musl instead of glibc. Built nightly on travis.
 
-This is only useful if you require external C dependencies, because otherwise you could do `rustup target add x86_64-unknown-linux-musl`.
+This is useful if you require external C dependencies, and/or need a CI image to compile a musl binary. Locally, you could do `rustup target add x86_64-unknown-linux-musl` if you don't need C dependencies.
 
 This container [comes with a bunch of statically compiled C libraries](#c-libraries) using `musl-gcc` so that we can statically link against these as well.
 
-If you already have [rustup](https://www.rustup.rs/) installed on the machine that should compile, you might consider [cross](https://github.com/japaric/cross) as a more general solution for cross compiling rust binaries.
+For embedded targets, consider [cross](https://github.com/japaric/cross) as a more general solution.
 
 ## Usage
 Pull and run from a rust project root:
@@ -28,7 +28,10 @@ ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 
-From there on, you can include it in a blank docker image (because everything you need is included in the binary) and perhaps end up with a [5MB docker blog image](https://github.com/clux/blog).
+From there on, you can include it in a blank docker image, or alpine (if you need certs / bash in exec), and you can end up with say:
+
+- [5MB blog image (blank image)](https://github.com/clux/blog).
+- [7MB kubernetes operator with actix (alpine)](https://github.com/clux/operator-rs)
 
 ## Docker builds
 Latest is always the last built nightly pushed by travis. To pin against specific builds, see the [available tags](https://hub.docker.com/r/clux/muslrust/tags/) on the docker hub.
@@ -122,7 +125,7 @@ Second time around this will be quick, and you can even mix it with native `carg
 If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. If that doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though! The sentry client seems to extract everything fine these days in a blank alpine container.
 
 ## Using muslrust on CI
-Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs) or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first one is a demo, second one has more stuff).
+Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs), [operator-rs](https://github.com/clux/operator-rs), or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first two are demos, second one has more stuff).
 
 ### Clippy
 If you need to install [clippy](https://github.com/rust-lang-nursery/rust-clippy) on a CI build image, you need to build it against the GNU toolchain (see [#37](https://github.com/clux/muslrust/issues/37#issuecomment-357314202)):
