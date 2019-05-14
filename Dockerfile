@@ -63,7 +63,7 @@ RUN mkdir $PREFIX && \
     ln -s /usr/include/linux /usr/include/x86_64-linux-musl/linux
 
 # Build zlib (used in openssl and pq)
-RUN curl -sSL http://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
+RUN curl -sSL https://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
     cd zlib-$ZLIB_VER && \
     CC="musl-gcc -fPIC -pie" LDFLAGS="-L$PREFIX/lib" CFLAGS="-I$PREFIX/include" ./configure --static --prefix=$PREFIX && \
     make -j$(nproc) && make install && \
@@ -72,7 +72,7 @@ RUN curl -sSL http://zlib.net/zlib-$ZLIB_VER.tar.gz | tar xz && \
 # Build openssl (used in curl and pq)
 # Would like to use zlib here, but can't seem to get it to work properly
 # TODO: fix so that it works
-RUN curl -sSL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
+RUN curl -sSL https://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
     ./Configure no-zlib no-shared -fPIC --prefix=$PREFIX --openssldir=$PREFIX/ssl linux-x86_64 && \
     env C_INCLUDE_PATH=$PREFIX/include make depend 2> /dev/null && \
