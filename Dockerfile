@@ -45,7 +45,7 @@ RUN curl https://sh.rustup.rs -sSf | \
 ENV SSL_VER="1.0.2r" \
     CURL_VER="7.64.1" \
     ZLIB_VER="1.2.11" \
-    PQ_VER="10.6" \
+    PQ_VER="10.8" \
     SQLITE_VER="3280000" \
     CC=musl-gcc \
     PREFIX=/musl \
