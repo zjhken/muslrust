@@ -28,10 +28,10 @@ ldd target/x86_64-unknown-linux-musl/debug/EXECUTABLE
         not a dynamic executable
 ```
 
-From there on, you can include it in a blank docker image, or alpine (if you need certs / bash in exec), and you can end up with say:
+From there on, you can include it in a blank docker image, distroless/static, or alpine (if you absolutely need kubectl exec), and you can end up with say:
 
-- [5MB blog image (blank image)](https://github.com/clux/blog).
-- [7MB kubernetes operator with actix (alpine)](https://github.com/clux/operator-rs)
+- [4MB blog image (blank image)](https://github.com/clux/blog).
+- [6MB kubernetes controller with actix (distroless/static)](https://github.com/clux/controller-rs)
 
 ## Docker builds
 Latest is always the last built nightly pushed by travis. To pin against specific builds, see the [available tags](https://hub.docker.com/r/clux/muslrust/tags/) on the docker hub.
@@ -121,8 +121,12 @@ $ musl-build
 
 Second time around this will be quick, and you can even mix it with native `cargo build` calls without screwing with your cache.
 
-## Debugging on alpine
-If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`. If that doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though! The sentry client seems to extract everything fine these days in a blank alpine container.
+## Debugging in blank containers
+If you are running a plain alpine/scratch container with your musl binary in there, then you might need to compile with debug symbols, and set `ENV RUST_BACKTRACE=full` in your `Dockerfile`.
+
+In alpine, if even this doesn't work (or fails to give you line numbers), try installing the `rust` package (via `apk`). This should not be necessary anymore though!
+
+For easily grabbing backtraces from rust docker apps; try adding [sentry](https://crates.io/crates/sentry). It seems to be able to grab backtraces regardless of compile options/evars.
 
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs), [operator-rs](https://github.com/clux/operator-rs), or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first two are demos, second one has more stuff).
