@@ -43,7 +43,7 @@ RUN curl https://sh.rustup.rs -sSf | \
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
 ENV SSL_VER="1.0.2s" \
-    CURL_VER="7.65.3" \
+    CURL_VER="7.66.0" \
     ZLIB_VER="1.2.11" \
     PQ_VER="10.10" \
     SQLITE_VER="3290000" \
