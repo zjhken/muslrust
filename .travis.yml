@@ -3,11 +3,11 @@ services:
 - docker
 script:
 - export RUST_CHANNEL="nightly"
+- export RUST_DATE=$(date +"%Y-%m-%d")
 - if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   fi
-- docker build --build-arg CHANNEL=${RUST_CHANNEL} -t clux/muslrust .
-- export RUST_DATE=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}")
+- docker build --build-arg CHANNEL="${RUST_CHANNEL}-${RUST_DATE}" -t clux/muslrust .
 - export RUST_VER=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]")
 - export TAG1="${RUST_VER}-${RUST_CHANNEL}"
 - export TAG2="${RUST_CHANNEL}-${RUST_DATE}"
