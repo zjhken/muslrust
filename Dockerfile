@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y \
 # Install rust using rustup
 ARG CHANNEL="nightly"
 RUN curl https://sh.rustup.rs -sSf | \
-    sh -s -- -y --default-toolchain ${CHANNEL} && \
+    sh -s -- -y --default-toolchain ${CHANNEL} --profile minimal && \
     ~/.cargo/bin/rustup target add x86_64-unknown-linux-musl && \
     echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > ~/.cargo/config
 
