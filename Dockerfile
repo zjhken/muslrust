@@ -39,7 +39,7 @@ ENV RUSTUP_VERSION="1.20.2" \
     RUST_ARCH="x86_64-unknown-linux-gnu"
 RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VERSION}/${RUST_ARCH}/rustup-init" -o rustup-init && \
     chmod +x rustup-init && \
-    ./rustup-init -y --default-toolchain ${CHANNEL} && \
+    ./rustup-init -y --default-toolchain ${CHANNEL} --profile minimal && \
     rm rustup-init && \
     ~/.cargo/bin/rustup target add x86_64-unknown-linux-musl && \
     echo "[build]\ntarget = \"x86_64-unknown-linux-musl\"" > ~/.cargo/config
