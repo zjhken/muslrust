@@ -131,11 +131,18 @@ For easily grabbing backtraces from rust docker apps; try adding [sentry](https:
 ## Using muslrust on CI
 Due to the current best compatibility with docker caching strategies, recommended CI is Circle. See [webapp-rs](https://github.com/clux/webapp-rs), [operator-rs](https://github.com/clux/operator-rs), or [raftcat](https://github.com/Babylonpartners/shipcat/tree/master/raftcat) for complete life-cycle rust cloud applications running in alpine containers built on CI (first two are demos, second one has more stuff).
 
-### Clippy
-If you need to install [clippy](https://github.com/rust-lang-nursery/rust-clippy) on a CI build image, you need to build it against the GNU toolchain (see [#37](https://github.com/clux/muslrust/issues/37#issuecomment-357314202)):
+### Extra Rustup components
+You can install extra components distributed via Rustup like normal:
 
 ```sh
-CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu cargo install clippy
+rustup component add clippy
+```
+
+### Binaries distributed via Cargo
+If you need to install a binary crate such as [ripgrep](https://github.com/BurntSushi/ripgrep) on a CI build image, you need to build it against the GNU toolchain (see [#37](https://github.com/clux/muslrust/issues/37#issuecomment-357314202)):
+
+```sh
+CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu cargo install ripgrep
 ```
 
 ## SELinux
