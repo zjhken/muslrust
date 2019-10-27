@@ -17,6 +17,7 @@ except ImportError:
     import urllib
 
 import json
+import toml
 import os
 import re
 
@@ -65,6 +66,20 @@ def pkgver(package):
         raise NameError('Package not found: {}'.format(package))
 
 
+def rustup_version():
+    """
+    Retrieve the current version of Rustup from https://static.rust-lang.org/rustup/release-stable.toml
+
+    :return: The current Rustup version
+    """
+
+    req = urllib.urlopen('https://static.rust-lang.org/rustup/release-stable.toml')
+    metadata = toml.loads(req.read().decode("utf-8"))
+    req.close()
+
+    return metadata['version']
+
+
 if __name__ == '__main__':
     PACKAGES = {
         'CURL': pkgver('curl'),
@@ -72,6 +87,7 @@ if __name__ == '__main__':
         'SQLITE': convert_sqlite_version(pkgver('sqlite')),
         'SSL': convert_openssl_version(pkgver('openssl-1.0')),
         'ZLIB': pkgver('zlib'),
+        'RUSTUP': rustup_version()
     }
 
     # Show a list of packages with current versions
