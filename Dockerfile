@@ -46,11 +46,11 @@ RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VER}/${RUST_ARCH}
 
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
-ENV SSL_VER="1.0.2s" \
+ENV SSL_VER="1.0.2t" \
     CURL_VER="7.66.0" \
     ZLIB_VER="1.2.11" \
     PQ_VER="10.10" \
-    SQLITE_VER="3290000" \
+    SQLITE_VER="3300100" \
     CC=musl-gcc \
     PREFIX=/musl \
     PATH=/usr/local/bin:/root/.cargo/bin:$PATH \
