@@ -105,7 +105,7 @@ RUN curl -sSL https://ftp.postgresql.org/pub/source/v$PQ_VER/postgresql-$PQ_VER.
     cd .. && rm -rf postgresql-$PQ_VER
 
 # Build libsqlite3 using same configuration as the alpine linux main/sqlite package
-RUN curl -sSL https://www.sqlite.org/2019/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
+RUN curl -sSL https://www.sqlite.org/2020/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
     cd sqlite-autoconf-$SQLITE_VER && \
     CFLAGS="-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_SECURE_DELETE -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE -DSQLITE_USE_URI -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_JSON1" \
     CC="musl-gcc -fPIC -pie" \
