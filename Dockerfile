@@ -49,7 +49,7 @@ RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VER}/${RUST_ARCH}
 ENV SSL_VER="1.0.2u" \
     CURL_VER="7.68.0" \
     ZLIB_VER="1.2.11" \
-    PQ_VER="11.6" \
+    PQ_VER="11.7" \
     SQLITE_VER="3310100" \
     CC=musl-gcc \
     PREFIX=/musl \
