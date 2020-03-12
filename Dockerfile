@@ -47,7 +47,7 @@ RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VER}/${RUST_ARCH}
 # Convenience list of versions and variables for compilation later on
 # This helps continuing manually if anything breaks.
 ENV SSL_VER="1.0.2u" \
-    CURL_VER="7.68.0" \
+    CURL_VER="7.69.0" \
     ZLIB_VER="1.2.11" \
     PQ_VER="11.7" \
     SQLITE_VER="3310100" \
