@@ -1,9 +1,11 @@
 SHELL := /bin/bash
+RUST_CHANNEL="stable"
+RUST_DATE=$$(date +"%Y-%m-%d")
 
 .PHONY: build run test push
 
 build:
-	docker build -t clux/muslrust .
+	docker build --build-arg CHANNEL="${RUST_CHANNEL}" -t clux/muslrust .
 run:
 	docker run -v $$PWD/test:/volume  -w /volume -it clux/muslrust /bin/bash
 
