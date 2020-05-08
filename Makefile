@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 RUST_CHANNEL="stable"
-RUST_DATE=$$(date +"%Y-%m-%d")
+#RUST_CHANNEL="nightly-$$(date +"%Y-%m-%d")"
 
 .PHONY: build run test push
 
