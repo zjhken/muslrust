@@ -49,8 +49,8 @@ RUN curl "https://static.rust-lang.org/rustup/archive/${RUSTUP_VER}/${RUST_ARCH}
 ENV SSL_VER="1.0.2u" \
     CURL_VER="7.70.0" \
     ZLIB_VER="1.2.11" \
-    PQ_VER="11.7" \
-    SQLITE_VER="3310100" \
+    PQ_VER="11.8" \
+    SQLITE_VER="3320100" \
     CC=musl-gcc \
     PREFIX=/musl \
     PATH=/usr/local/bin:/root/.cargo/bin:$PATH \
