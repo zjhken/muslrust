@@ -3,6 +3,8 @@ python:
 - "3.7"
 services:
 - docker
+install:
+- pip install toml
 script: |
   export RUST_DATE=$(date +"%Y-%m-%d")
   export RUST_CHANNEL="stable-${RUST_DATE}"
@@ -12,7 +14,6 @@ script: |
   export TAG1="${RUST_VER}-${RUST_CHANNEL}"
   export TAG2="${RUST_CHANNEL}-${RUST_DATE}"
   export TAG3="${RUST_CHANNEL}"
-  pip install toml
   if python3 check_stable.py; then
     docker build --build-arg CHANNEL="${RUST_CHANNEL}" -t clux/muslrust .
     export RUST_VER=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]")
