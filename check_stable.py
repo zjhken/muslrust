@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # check_stable.py
 #
 # Retrieve latest stable version from static.rust-lang.org
@@ -25,7 +25,7 @@ def rust_stable_version():
 
 def stable_tag_exists(stable_ver):
     """Retrieve our built tags and check we have built a given one"""
-    url = f'https://registry.hub.docker.com/v1/repositories/{DOCKERHUB_REPO}/tags'
+    url = 'https://registry.hub.docker.com/v1/repositories/{}/tags'.format(DOCKERHUB_REPO)
     req = urllib.urlopen(url)
     data = json.loads(req.read())
     req.close()
