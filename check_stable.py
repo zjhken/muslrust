@@ -9,11 +9,11 @@
 
 import urllib.request as urllib
 import json
-import toml
 import sys
+import toml
 
 # Dockerhub repo to compare rust-lang release with
-DOCKERHUB_REPO="clux/muslrust"
+DOCKERHUB_REPO = "clux/muslrust"
 
 def rust_stable_version():
     """Retrieve the latest rust stable version from static.rust-lang.org"""
@@ -37,7 +37,7 @@ def stable_tag_exists(stable_ver):
 
 if __name__ == '__main__':
     latest_stable = rust_stable_version()
-    tag = f'{latest_stable}-stable'
+    tag = '{}-stable'.format(latest_stable)
     exists = stable_tag_exists(tag)
     if not exists:
         print(latest_stable)
