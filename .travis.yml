@@ -7,7 +7,8 @@ install:
 - pip install toml
 script: |
   export RUST_DATE=$(date +"%Y-%m-%d")
-  export RUST_CHANNEL="stable-${RUST_DATE}"
+  export CHANNEL="stable"
+  export RUSTUP_CHANNEL="${CHANNEL}-${RUST_DATE}"
   if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   fi
@@ -16,9 +17,10 @@ script: |
     export RUST_VER=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]")
     make test
     export SUCCESSFUL_BUILD=1
-    export TAG1="${RUST_VER}-${RUST_CHANNEL}"
-    export TAG2="${RUST_CHANNEL}-${RUST_DATE}"
-    export TAG3="${RUST_CHANNEL}"
+    export TAG1="${CHANNEL}"
+    export TAG2="${RUST_VER}"
+    export TAG3="${RUST_VER}-${CHANNEL}"
+    export TAG4="${RUSTUP_CHANNEL}"
   fi
 after_success: |
   if [[ ${SUCCESSFUL_BUILD} = 1 ]]; then
@@ -30,6 +32,8 @@ after_success: |
       docker push clux/muslrust:$TAG2
       docker tag clux/muslrust clux/muslrust:$TAG3
       docker push clux/muslrust:$TAG3
+      docker tag clux/muslrust clux/muslrust:$TAG4
+      docker push clux/muslrust:$TAG4
     fi
   fi
 notifications:
