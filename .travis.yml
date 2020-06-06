@@ -13,7 +13,7 @@ script: |
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   fi
   if python3 check_stable.py; then
-    docker build --build-arg CHANNEL="${RUST_CHANNEL}" -t clux/muslrust .
+    docker build --build-arg CHANNEL="${RUSTUP_CHANNEL}" -t clux/muslrust .
     export RUST_VER=$(docker run -it clux/muslrust rustc --version | grep -oE "[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]")
     make test
     export SUCCESSFUL_BUILD=1
