@@ -6,7 +6,9 @@ services:
 install:
 - pip install toml
 script: |
-  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+    echo "${DOCKER_PASSWORD}" | docker login -u="$DOCKER_USERNAME" --password-stdin
+  fi
   set -x
   export RUST_DATE=$(date +"%Y-%m-%d")
   export RUST_CHANNEL="stable"
